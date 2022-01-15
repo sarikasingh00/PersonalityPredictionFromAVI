@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Logout Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style>
+      html, body {
+        overflow-x: hidden;
+        background-image: url("https://img.freepik.com/free-photo/abstract-techno-background-with-connecting-lines_1048-5570.jpg?size=626&ext=jpg");
+        background-size: cover;
+      }
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <p class="text-light"><h3 style="color: white;">Sardar Patel Institute of Technology</h3></p>
+    </li>
+  </ul>
+</nav>
+<br>
+<br>
+		 <p style="font-size: 40px;text-align: center;color: white;">You Have Successfully Logged Out! </p>
+		 <!-- <p style="font-size: 40px;text-align: center;color: white;">Successfully Logged Out!</p> -->
+		 <br><br>
+	   <a href="{% url 'login' %}" class="btn btn-danger justify-content-center shadow-lg" style="height: 40px;width: 200px;margin-left: 43%;">Login Again</a>
+</body>
+</html>
