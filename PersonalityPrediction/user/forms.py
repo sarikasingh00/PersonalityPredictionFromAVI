@@ -15,3 +15,5 @@ class ApplicantRegisterForm(forms.ModelForm):
     class Meta:
         model = Applicant
         fields = ['is_type']
+
+		
