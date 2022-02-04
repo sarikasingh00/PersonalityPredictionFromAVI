@@ -287,9 +287,10 @@ select option:first-child{
   pointer-events: all;
 }
 
-@media (max-width: 870px) {
+@media (max-width: 100%) {
   .container {
     min-height: 800px;
+    width: 1920px;
     height: 100vh;
   }
   .signin-signup {
