@@ -75,7 +75,9 @@ print(file_names[0:20])
 
 print(file_names[-20:])
 
-for i in range(len(frame_names)):
+print(len(frame_names[53639:]))
+
+for i in range(53638, len(frame_names)):
   print(i)
   crop_landmarks(frame_names[i], file_names[i])
 

@@ -16,7 +16,7 @@ def recruiter_check(user):
 		return False
 
 def home(request):
-	# print(request.user.is_authenticated)
+	print(request.user)
 	if Recruiter.objects.filter(user=request.user).first():
 		print("recruiter")
 		return render(request,"recruiter/recruiter_home.html")
@@ -59,6 +59,8 @@ def register_login(request):
 			user = authenticate(username=username, password=password)
 			print(user)		
 			if user is not None:
+				# request.session['user'] = user
+				login(request, user)
 				return redirect('home')
 			else:
 				print("Login unsuccessful")
@@ -79,6 +81,8 @@ def register_login(request):
 		applicant_form = ApplicantRegisterForm(request.POST)
 	return render(request, 'user/register_login.html', {'user_form': user_form, 'member_form': applicant_form, })
 
+
+
 def profile(request):
 	if request.method=='POST':
 		u_form = UserRegisterForm(request.POST, instance = request.user)
@@ -87,7 +91,9 @@ def profile(request):
 			u_form.save()
 			# p_form.save()
 			messages.success(request, f'Your account has been updated!')
+			login(request,request.user) #IMP
 			return redirect('profile')
+	
 	else:
 		u_form = UserRegisterForm(instance = request.user)
 		# p_form = ProfileUpdateForm(instance = request.user.profile)
@@ -97,3 +103,10 @@ def profile(request):
 	}
 
 	return render(request, "user/profile.html", context)
+
+
+	"""
+	Session:
+		request[user] - sarikasingh
+		change - sarikasingh2
+	"""
