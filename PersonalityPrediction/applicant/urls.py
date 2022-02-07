@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from . import views as applicant_views
 
 urlpatterns = [
-    path('', applicant_views.home, name='applicant-home'),
+    path('', applicant_views.dashboard, name='applicant-home'),
     path('upload-resume/', applicant_views.resume_upload, name='upload-resume'),
     # # path('', fine_views.manage_fines,name='manage-fines'),
     # path('view/', fine_views.check_fines,name='view-fines'),

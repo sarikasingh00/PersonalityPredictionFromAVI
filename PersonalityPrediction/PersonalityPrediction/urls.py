@@ -30,6 +30,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name = 'user/logout.html'),name = 'logout'),
     path('home/',user_views.home, name='home'),
     path('applicant/',include('applicant.urls')),
-    path('profile/', user_views.profile, name = 'profile'),
+    path('edit_profile/', user_views.edit_profile, name = 'edit-profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

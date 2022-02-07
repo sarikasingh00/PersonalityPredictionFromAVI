@@ -1,15 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
+from django.forms import CharField
 from django.utils import timezone
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
+from django_mysql.models import ListCharField
+
 # Create your models here.
 is_type = (
 	('Applicant','Applicant'),
 	('Recruiter','Recruiter'),
 	)
 
-def get_upload_path(instance, filename):
-	name = "uploads/%s/%s" % (instance.user.username, filename)
+def get_resume_upload_path(instance, filename):
+	name = "uploads/resume/%s/%s" % (instance.user.username, filename)
+	return name
+
+def get_profile_upload_path(instance, filename):
+	name = "uploads/profile/%s/%s" % (instance.user.username, filename)
 	return name
 
 
@@ -17,7 +24,13 @@ class Applicant(models.Model):
 	user = models.OneToOneField(User, on_delete = models.CASCADE) # username password email first_name last_name
 	is_type = models.CharField(max_length=50,choices=is_type,default='Applicant')
 	# resume file
-	resume = models.FileField(upload_to=get_upload_path , max_length=254) # uploads to media_root/uploads/username/
+	resume = models.FileField(upload_to=get_resume_upload_path , max_length=254) # uploads to media_root/uploads/username/
+	profile_pic = models.ImageField(upload_to=get_profile_upload_path, max_length=100)
+	# contact_no = models.IntegerField(max_length=10)
+	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+	phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
+	key_skills = models.JSONField('Key Skills')
+	
 
 	# TODO: link to AVI 
 	

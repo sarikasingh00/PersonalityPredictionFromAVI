@@ -83,7 +83,7 @@ def register_login(request):
 
 
 
-def profile(request):
+def edit_profile(request):
 	if request.method=='POST':
 		u_form = UserRegisterForm(request.POST, instance = request.user)
 		# p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
@@ -92,7 +92,7 @@ def profile(request):
 			# p_form.save()
 			messages.success(request, f'Your account has been updated!')
 			login(request,request.user) #IMP
-			return redirect('profile')
+			return redirect('edit_profile')
 	
 	else:
 		u_form = UserRegisterForm(instance = request.user)
@@ -103,6 +103,7 @@ def profile(request):
 	}
 
 	return render(request, "user/profile.html", context)
+
 
 
 	"""
