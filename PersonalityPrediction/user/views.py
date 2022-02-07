@@ -56,6 +56,7 @@ def register_login(request):
 		if request.POST['flag'] == 'login':
 			username = request.POST['username']
 			password = request.POST['password']
+			print(username, password)
 			user = authenticate(username=username, password=password)
 			print(user)		
 			if user is not None:
@@ -67,18 +68,22 @@ def register_login(request):
 		else:
 			user_form = UserRegisterForm(request.POST)
 			member_form = ApplicantRegisterForm(request.POST)
+			print(user_form.errors)
+			print(member_form.errors)
 			if member_form.is_valid() and user_form.is_valid():
 				user = user_form.save()
 				member =  member_form.save(commit=False)
 				member.user = user
 				member.save()
+				login(request, user)
 				messages.success(request, f'Registration complete! You may log in!')
+				return redirect('home')
 			else:
 				messages.error(request, f'Registration error!')
-			return redirect('login')
+				return redirect('login')
 	else:
-		user_form = UserRegisterForm(request.POST)
-		applicant_form = ApplicantRegisterForm(request.POST)
+		user_form = UserRegisterForm()
+		applicant_form = ApplicantRegisterForm()
 	return render(request, 'user/register_login.html', {'user_form': user_form, 'member_form': applicant_form, })
 
 

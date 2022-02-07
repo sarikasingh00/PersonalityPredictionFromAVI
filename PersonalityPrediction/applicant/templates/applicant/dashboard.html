@@ -14,9 +14,15 @@
  <p>Hello</p>
  
   {% for key,value in fields.items %}
-
-    <p>{{key}} -- {{value}}</p>
-    {% endfor %}
+    {% if key == 'Uploaded Resume' %}
+      {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
+    {% elif key == 'Profile Picture' %}
+      <!-- {{key}} - <a href={{value.url}}> {{value.profile_filename}}</a> <br> -->
+      <img src="{{ MEDIA_URL }}{{value.url}}" style="width: 500px; height: 500px;">
+    {% else %}
+      <p>{{key}} - {{value}}</p>
+    {% endif %}
+  {% endfor %}
 
     <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-info shadow-lg float-right">Update Profile</button></a>
 
