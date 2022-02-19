@@ -16,7 +16,7 @@ def recruiter_check(user):
 		return False
 
 def home(request):
-	# print(request.user.is_authenticated)
+	print(request.user)
 	if Recruiter.objects.filter(user=request.user).first():
 		print("recruiter")
 		return render(request,"recruiter/recruiter_home.html")
@@ -56,30 +56,39 @@ def register_login(request):
 		if request.POST['flag'] == 'login':
 			username = request.POST['username']
 			password = request.POST['password']
+			print(username, password)
 			user = authenticate(username=username, password=password)
 			print(user)		
 			if user is not None:
+				# request.session['user'] = user
+				login(request, user)
 				return redirect('home')
 			else:
 				print("Login unsuccessful")
 		else:
 			user_form = UserRegisterForm(request.POST)
 			member_form = ApplicantRegisterForm(request.POST)
+			print(user_form.errors)
+			print(member_form.errors)
 			if member_form.is_valid() and user_form.is_valid():
 				user = user_form.save()
 				member =  member_form.save(commit=False)
 				member.user = user
 				member.save()
+				login(request, user)
 				messages.success(request, f'Registration complete! You may log in!')
+				return redirect('home')
 			else:
 				messages.error(request, f'Registration error!')
-			return redirect('login')
+				return redirect('login')
 	else:
-		user_form = UserRegisterForm(request.POST)
-		applicant_form = ApplicantRegisterForm(request.POST)
+		user_form = UserRegisterForm()
+		applicant_form = ApplicantRegisterForm()
 	return render(request, 'user/register_login.html', {'user_form': user_form, 'member_form': applicant_form, })
 
-def profile(request):
+
+
+def edit_profile(request):
 	if request.method=='POST':
 		u_form = UserRegisterForm(request.POST, instance = request.user)
 		# p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
@@ -87,7 +96,9 @@ def profile(request):
 			u_form.save()
 			# p_form.save()
 			messages.success(request, f'Your account has been updated!')
-			return redirect('profile')
+			login(request,request.user) #IMP
+			return redirect('edit_profile')
+	
 	else:
 		u_form = UserRegisterForm(instance = request.user)
 		# p_form = ProfileUpdateForm(instance = request.user.profile)
@@ -97,3 +108,11 @@ def profile(request):
 	}
 
 	return render(request, "user/profile.html", context)
+
+
+
+	"""
+	Session:
+		request[user] - sarikasingh
+		change - sarikasingh2
+	"""

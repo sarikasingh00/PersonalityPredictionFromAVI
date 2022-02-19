@@ -351,4 +351,7 @@ MigrationBackup/
 
 data/
 v1/
+kaggle/
 text.txt
+drive_upload.py
+client_secrets.json

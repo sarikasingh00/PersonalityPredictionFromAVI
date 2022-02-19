@@ -1,4 +1,11 @@
 {% load crispy_forms_tags %}
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+		{% endfor %}
+	</ul>
+	{% endif %}
     <div class="content-section">
    		<div class="media">
 	        {% comment %} <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"> {% endcomment %}
