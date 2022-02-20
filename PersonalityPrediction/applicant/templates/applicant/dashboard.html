@@ -9,25 +9,100 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style>
+    .navbar-custom {
+      background-color: #2f4353;
+      z-index: 1;
+      position:relative;
+      background-image: linear-gradient(315deg, #d2ccc4  0%, #2f4353 74%);
+  }
+  .column {
+    float: left;
+    padding: 10px;
+  }
+  
+  .left {
+    width: 35%;
+  }
+  
+  .right {
+    width: 65%;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  </style>
 </head>
 <body>
- <p>Hello</p>
- 
-  {% for key,value in fields.items %}
+  <section style="position:relative;z-index:1;">
+    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2;">
+      <div class="centered" style="position: absolute;top: 50%;left: 43%;transform: translate(-50%, -50%);font-size:36px;">{{user.first_name}} {{user.last_name}}</div>
+      <img src="https://images.pexels.com/photos/1526/dark-blur-blurred-gradient.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" style="height:130px;width:200%;margin-left:-60%;">
+    </div>
+  </section>
+<nav class="navbar navbar-custom">
+  <ul class="navbar-nav ml-auto">
+    <a class="navbar-brand" href="#" style="color:white;">
+    PROFILE
+  </a></ul>
+<a class="navbar-brand" href="#" style="color:white;">
+  DASHBOARD
+</a>
+<a class="navbar-brand" href="#" style="color:white;">
+  UPDATE PROFILE
+</a>
+</nav>
+<div class="row">
+  <div class="column left" style="background-color:#FAFAFA">
+    <img src="https://cdn2.vectorstock.com/i/1000x1000/38/21/male-face-avatar-logo-template-pictograph-vector-11333821.jpg" style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-40%;z-index:1;position:relative;">
+    <div class="resumebox" style="background-color:lightgrey;width:350px;padding:25px;margin-left:50px;margin-top:50px;">
+      <p style="color:blue;text-align:center">Uploaded Documents</p>
+      {% for key,value in fields.items %}
+        {% if key == 'Uploaded Resume' %}<br>
+          {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
+        {% endif %}
+      {% endfor %}
+      <br>
+      <div>
+        <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg" style="margin-left:80px">Upload Resume</button></a>
+      </div>
+    </div>
+    <div class="avibox" style="background-color:lightgrey;width:350px;padding:25px;margin-left:50px;margin-top:50px;">
+      <p style="color:blue;text-align:center">Uploaded Video Interview</p>
+      {% for key,value in fields.items %}
+        {% if key == 'Uploaded Resume' %}<br>
+          {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
+        {% endif %}
+      {% endfor %}
+      <br>
+      <div>
+        <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg" style="margin-left:80px">Upload AVI</button></a>
+      </div>
+    </div>
+  </div>
+  <div class="column right">
+    <div class="detailsbox" style="background-color:#FAFAFA;width:650px;padding:25px;margin-left:70px;">
+    <h2>User Details</h2>
+    {% for key,value in fields.items %}
     {% if key == 'Uploaded Resume' %}
-      {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
+      {% comment %} {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br> {% endcomment %}
     {% elif key == 'Profile Picture' %}
-      <!-- {{key}} - <a href={{value.url}}> {{value.profile_filename}}</a> <br> -->
-      <img src="{{ MEDIA_URL }}{{value.url}}" style="width: 500px; height: 500px;">
+      {% comment %} <img src="{{ MEDIA_URL }}{{value.url}}" style="width: 500px; height: 500px;"> {% endcomment %}
     {% else %}
-      <p>{{key}} - {{value}}</p>
+    <div class="card bg-light text-dark" style="margin-top:10px">
+      <div class="card-body">{{key}} - {{value}}</div>
+    </div>
+      {% comment %} <p>{{key}} - {{value}}</p> {% endcomment %}
     {% endif %}
   {% endfor %}
-
-    <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-info shadow-lg float-right">Update Profile</button></a>
-
-    <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg float-right">Upload Resume</button></a>
-
+  <br>
+  <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-info shadow-lg">Update Profile</button></a>
+    </div>
+  </div>
+</div>
 </body>
 </html>
 
