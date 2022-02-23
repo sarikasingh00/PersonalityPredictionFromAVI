@@ -358,3 +358,5 @@ dataframes/
 text.txt
 drive_upload.py
 client_secrets.json
+
+shape_predictor_68_face_landmarks.dat
