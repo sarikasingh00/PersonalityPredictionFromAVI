@@ -57,28 +57,26 @@ def crop_landmarks(path, filename):
 
 start_time = time.time()
 
-save_path = 'D:\\Sarika\\PersonalityPredictionFromAVI\\data\\cropped frames'
+save_path = 'D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\cropped_frames'
 predictor_path = "D:\\Sarika\\PersonalityPredictionFromAVI\\shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(predictor_path)
 
 
-frame_names = glob.glob('D:\\Sarika\\PersonalityPredictionFromAVI\\data\\frames\\*')
+frame_names = glob.glob('D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\frames\\*')
 frame_names.sort()
 
-root = 'D:\\Sarika\\PersonalityPredictionFromAVI\\data\\frames\\'
+root = 'D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\frames\\'
 file_names = []
 for i in range(len(frame_names)):
   file_names += [frame_names[i].replace(root, '')]
 
-print(file_names[0:20])
+print(file_names[0:10])
 
-print(file_names[-20:])
+# print(file_names[-20:])
 
-print(len(frame_names[53639:]))
+print(len(frame_names))
 
-for i in range(53638, len(frame_names)):
+for i in range(len(frame_names)):
   print(i)
   crop_landmarks(frame_names[i], file_names[i])
-
-print("--- %s hrs ---" % (time.time() - start_time)/(60*60))

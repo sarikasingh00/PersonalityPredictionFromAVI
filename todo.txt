@@ -1,0 +1,5 @@
+Integrate model with django
+UI
+debias true false - audio, images
+average pred + metrics
+ppt graph

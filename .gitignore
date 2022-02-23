@@ -352,6 +352,9 @@ MigrationBackup/
 data/
 v1/
 kaggle/
+models/
+First Impressions/
+dataframes/
 text.txt
 drive_upload.py
 client_secrets.json

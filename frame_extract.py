@@ -3,7 +3,7 @@ import glob
 import os
 import math
 
-video_files_root = "D:\\Sarika\\BE project\\data\\train zips\\extracted videos\\"
+video_files_root = "D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\test-2e\\"
 
 # get all video file names
 video_names = glob.glob(video_files_root + "*.mp4")
@@ -16,11 +16,10 @@ print(video_names[0:10])
 
 #extracts 1 frame per second
 
-path = 'D:\\Sarika\\BE project\\data\\frames'
+path = 'D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\frames'
 
 for i in range(len(video_names)):
-	if i%50==0:
-		print(i)
+	print(i)
 
 	video_name = video_names[i]
 	videoFile = video_files_root + video_name
@@ -50,3 +49,18 @@ for i in range(len(video_names)):
 	cap.release()
 
 print ("Done!")
+
+
+"""
+duration - 7s
+fps -50
+framecount - 350
+
+step - framecount/15 - ceil(350/15) - 24
+
+frameid - 0,349
+
+frameId % step == 0:
+ 0 23 46 ... 230 345
+
+"""
