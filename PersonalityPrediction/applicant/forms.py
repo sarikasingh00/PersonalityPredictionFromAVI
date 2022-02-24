@@ -7,3 +7,9 @@ class ApplicantResumeForm(forms.ModelForm):
 	class Meta:
 		model = Applicant
 		fields = ['resume']
+
+
+class ApplicantAVIForm(forms.ModelForm):
+	class Meta:
+		model = Applicant
+		fields = ['avi']

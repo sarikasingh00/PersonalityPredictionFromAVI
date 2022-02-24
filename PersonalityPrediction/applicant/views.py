@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from sklearn import pipeline
 from user.models import Applicant
-from .forms import ApplicantResumeForm
+from .forms import ApplicantResumeForm, ApplicantAVIForm
 from pyresparser import ResumeParser
+import audio_model
+import avi_features
 
 # Create your views here.
 def home(request):
@@ -31,6 +34,31 @@ def resume_upload(request):
 		resume_form = ApplicantResumeForm()
 		return render(request,"applicant/upload_resume.html",{'form':resume_form})
 
+
+def avi_upload(request):
+	print("in avi upload view")
+	if request.method == 'POST':
+		print("in POST")
+		avi_file = request.FILES['avi']
+		applicant_obj = Applicant.objects.get(user = request.user)
+		applicant_obj.avi = avi_file
+		try :
+			applicant_obj.save()
+			messages.success(request, 'Video Interview Uploaded!')
+			print(applicant_obj.avi.name)
+			audio_feature_path = avi_features.feature_pipeline(applicant_obj.avi.name)
+			print("audio ft extracted, moving to preds")
+			print(audio_model.ocean_predict(audio_feature_path))
+		except Exception as e:
+			print("Object not saved", e )
+			messages.error(request, 'Upload not successful')
+	
+		return redirect('home')
+	else:
+		avi_form = ApplicantAVIForm()
+		return render(request,"applicant/upload_avi.html",{'form':avi_form})
+
+
 def dashboard(request):
 	user = request.user
 	applicant = Applicant.objects.filter(user=user).first()
@@ -43,9 +71,10 @@ def dashboard(request):
 		'Profile Picture': applicant.profile_pic,
 		'Phone Number': applicant.phone_number,
 		'Key Skills': applicant.key_skills['skills'],
-
+		'Video Interview': applicant,
 	}
 	# print(fields)
+	# print(audio_model.ocean_predict())
 	return render(request,"applicant/dashboard.html", {'fields':fields})
 
 

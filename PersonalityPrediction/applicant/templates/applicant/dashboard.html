@@ -70,11 +70,11 @@
         <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg" style="margin-left:80px">Upload Resume</button></a>
       </div>
     </div>
-    <div class="avibox" style="background-color:lightgrey;width:350px;padding:25px;margin-left:50px;margin-top:50px;">
+    <div class="avibox" style="background-color:rgb(211, 211, 211);width:350px;padding:25px;margin-left:50px;margin-top:50px;">
       <p style="color:blue;text-align:center">Uploaded Video Interview</p>
       {% for key,value in fields.items %}
-        {% if key == 'Uploaded Resume' %}<br>
-          {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
+        {% if key == 'Video Interview' %}<br>
+          {{key}} - <a href={{value.url}}> {{value.avi_filename}}</a> <br>
         {% endif %}
       {% endfor %}
       <br>
