@@ -8,7 +8,8 @@ import audio_model
 import image_model
 import avi_features
 # from django.shortcuts import HttpResponseRedirect
-from datetime import date
+import datetime
+# from datetime import date
 
 
 
@@ -44,12 +45,12 @@ def resume_upload(request):
 
 def avi_upload(request):
 	print("in avi upload view")
+	applicant_obj = Applicant.objects.get(user = request.user)
 	if request.method == 'POST':
 		print("in POST")
 		avi_file = request.FILES['avi']
-		applicant_obj = Applicant.objects.get(user = request.user)
 		applicant_obj.avi = avi_file
-		applicant_obj.avi_upload_date = date.today().strftime("%Y-%m-%d")
+		applicant_obj.avi_upload_date = datetime.date.today().strftime("%Y-%m-%d")
 		try :
 			applicant_obj.save()
 			messages.success(request, 'Video Interview Uploaded!')
@@ -64,9 +65,17 @@ def avi_upload(request):
 			messages.error(request, 'Upload not successful')
 	
 		return redirect('home')
-	else:
+	elif applicant_obj.avi_upload_date is None:
 		avi_form = ApplicantAVIForm()
-		return render(request,"applicant/upload_avi.html",{'form':avi_form})
+		return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': 'Never'})
+	else:
+		applicant_obj = Applicant.objects.get(user = request.user)
+		diff = (datetime.date.today() - applicant_obj.avi_upload_date).days
+		if diff>180:
+			avi_form = ApplicantAVIForm()
+			return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%Y-%m-%d")})
+		else: # change flag to flase later
+			return render(request,"applicant/upload_avi.html",{'flag':True, 'date': applicant_obj.avi_upload_date.strftime("%d-%m-%Y")})
 
 
 def dashboard(request):
@@ -80,9 +89,14 @@ def dashboard(request):
 		'Uploaded Resume': applicant,
 		'Profile Picture': applicant.profile_pic,
 		'Phone Number': applicant.phone_number,
-		'Key Skills': applicant.key_skills['skills'],
+		# 'Key Skills': applicant.key_skills['skills'],
 		'Video Interview': applicant,
 	}
+	# 
+	if 'skills' in applicant.key_skills:
+		fields['Key Skills'] = applicant.key_skills['skills']
+	else:
+		fields['Key Skills'] = ''
 	# print(fields)
 	# print(audio_model.ocean_predict())
 	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url})

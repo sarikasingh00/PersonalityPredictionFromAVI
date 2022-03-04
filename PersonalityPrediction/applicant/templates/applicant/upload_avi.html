@@ -47,9 +47,10 @@ html,body   { height: 100%; text-align: center;}
   </a>
   </nav>
   <br><br>
-  <h2>Resume File Upload </h2>
+  {% if flag %}
+  <h2>Video Interview File Upload </h2>
   <p class="lead">Please Upload <b>Your Video Interview</b></p>
-
+  <!-- {{flag}} -->
   <div class="upload-box" style="background-color:lightgrey;width:450px;padding:25px;margin-left:32%;margin-top:50px;">
     <form method="POST" enctype="multipart/form-data">
     <!-- <input type="file" id="myFile" name="filename"> -->
@@ -67,5 +68,9 @@ html,body   { height: 100%; text-align: center;}
     </div>
   </form>
 </div>
+{% else %}
+You have already uploaded your interview. You can only upload it after a period of 6 months. <br>
+Your last upload date was {{date}}.
+{% endif %}
 </body>
 </html>
