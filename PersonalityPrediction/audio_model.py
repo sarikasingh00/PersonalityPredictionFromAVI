@@ -170,7 +170,7 @@ def ocean_predict(audio_feature_path):
 
 	model.built=True
 
-	model.load_weights("audio_rmsprop_debias_true.h5")
+	model.load_weights("D:\\Sarika\\PersonalityPredictionFromAVI\\models\\audio 22_Feb\\audio_rmsprop_debias_true.h5")
 	print(audio_feature_path)
 	data=pd.read_csv(audio_feature_path)
 	data1=data.to_numpy()

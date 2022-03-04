@@ -7,12 +7,16 @@ from pyresparser import ResumeParser
 import audio_model
 import image_model
 import avi_features
+# from django.shortcuts import HttpResponseRedirect
+from datetime import date
+
 
 
 # Create your views here.
 def home(request):
 	if request.method == 'GET':
 		return render(request,"applicant/applicant_home.html")
+
 
 
 def resume_upload(request):
@@ -45,6 +49,7 @@ def avi_upload(request):
 		avi_file = request.FILES['avi']
 		applicant_obj = Applicant.objects.get(user = request.user)
 		applicant_obj.avi = avi_file
+		applicant_obj.avi_upload_date = date.today().strftime("%Y-%m-%d")
 		try :
 			applicant_obj.save()
 			messages.success(request, 'Video Interview Uploaded!')
@@ -80,7 +85,7 @@ def dashboard(request):
 	}
 	# print(fields)
 	# print(audio_model.ocean_predict())
-	return render(request,"applicant/dashboard.html", {'fields':fields})
+	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url})
 
 
 def extract_skills(resume_path, applicant_obj):

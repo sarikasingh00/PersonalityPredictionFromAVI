@@ -17,3 +17,7 @@ class ApplicantRegisterForm(forms.ModelForm):
         fields = ['is_type']
 
 		
+class ApplicantEditForm(forms.ModelForm):
+	class Meta:
+		model = Applicant
+		fields = ['key_skills', 'phone_number', 'profile_pic']

@@ -46,18 +46,21 @@
 <nav class="navbar navbar-custom">
   <ul class="navbar-nav ml-auto">
     <a class="navbar-brand" href="#" style="color:white;">
-    PROFILE
+    Profile
   </a></ul>
 <a class="navbar-brand" href="#" style="color:white;">
-  DASHBOARD
+  Dashboard
 </a>
 <a class="navbar-brand" href="#" style="color:white;">
-  UPDATE PROFILE
+  Update Profile
+</a>
+<a class="navbar-brand" href="{% url 'logout' %}" style="color:white;" onclick="return confirm('Are you sure?');">
+  Logout
 </a>
 </nav>
 <div class="row">
   <div class="column left" style="background-color:#FAFAFA">
-    <img src="https://cdn2.vectorstock.com/i/1000x1000/38/21/male-face-avatar-logo-template-pictograph-vector-11333821.jpg" style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-40%;z-index:1;position:relative;">
+    <img src="{{profile}}" style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-40%;z-index:1;position:relative;">
     <div class="resumebox" style="background-color:lightgrey;width:350px;padding:25px;margin-left:50px;margin-top:50px;">
       <p style="color:blue;text-align:center">Uploaded Documents</p>
       {% for key,value in fields.items %}

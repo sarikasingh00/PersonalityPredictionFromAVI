@@ -18,7 +18,7 @@ def get_resume_upload_path(instance, filename):
 
 def get_profile_upload_path(instance, filename):
 	name = "uploads/%s/profile/%s" % (instance.user.username, filename)
-	# print(name)
+	print(name)
 	return name
 
 def get_avi_upload_path(instance, filename):
@@ -33,6 +33,7 @@ class Applicant(models.Model):
 	resume = models.FileField(upload_to=get_resume_upload_path , max_length=254) # uploads to media_root/uploads/username/resume/
 	profile_pic = models.ImageField(upload_to=get_profile_upload_path, max_length=100, default = 'empty_profile.png') # uploads to media_root/uploads/username/profile/
 	avi = models.FileField(upload_to=get_avi_upload_path , max_length=254, blank=True, null=True) # uploads to media_root/uploads/username/avi
+	avi_upload_date = models.DateField(blank=True, null=True)
 	# contact_no = models.IntegerField(max_length=10)
 	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 	phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
