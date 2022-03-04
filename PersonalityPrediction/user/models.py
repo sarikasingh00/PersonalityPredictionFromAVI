@@ -1,7 +1,7 @@
 import os
 from email.policy import default
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User
+from django.contrib.auth.models import User
 from django.forms import CharField
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator

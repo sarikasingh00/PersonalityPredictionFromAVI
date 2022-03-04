@@ -359,5 +359,5 @@ PersonalityPrediction/media/
 text.txt
 drive_upload.py
 client_secrets.json
-
+PersonalityPrediction/*.h5
 shape_predictor_68_face_landmarks.dat
