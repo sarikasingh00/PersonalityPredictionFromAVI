@@ -65,17 +65,20 @@ def avi_upload(request):
 			messages.error(request, 'Upload not successful')
 	
 		return redirect('home')
-	elif applicant_obj.avi_upload_date is None:
-		avi_form = ApplicantAVIForm()
-		return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': 'Never'})
+	
 	else:
-		applicant_obj = Applicant.objects.get(user = request.user)
-		diff = (datetime.date.today() - applicant_obj.avi_upload_date).days
-		if diff>180:
+		if applicant_obj.avi_upload_date is None:
 			avi_form = ApplicantAVIForm()
-			return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%Y-%m-%d")})
-		else: # change flag to flase later
-			return render(request,"applicant/upload_avi.html",{'flag':True, 'date': applicant_obj.avi_upload_date.strftime("%d-%m-%Y")})
+			return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': 'Never'})
+		else:
+			applicant_obj = Applicant.objects.get(user = request.user)
+			diff = (datetime.date.today() - applicant_obj.avi_upload_date).days
+			if diff>180:
+				avi_form = ApplicantAVIForm()
+				return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%Y-%m-%d")})
+			else: # change flag to flase later
+				avi_form = ApplicantAVIForm() #remove later
+				return render(request,"applicant/upload_avi.html",{'flag':True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%d-%m-%Y")})
 
 
 def dashboard(request):
