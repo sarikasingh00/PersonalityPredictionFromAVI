@@ -1,6 +1,8 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Applicant Home</title>
   <meta charset="utf-8">
@@ -13,99 +15,125 @@
     .navbar-custom {
       background-color: #2f4353;
       z-index: 1;
-      position:relative;
-      background-image: linear-gradient(315deg, #d2ccc4  0%, #2f4353 74%);
-  }
-  .column {
-    float: left;
-    padding: 10px;
-  }
-  
-  .left {
-    width: 35%;
-  }
-  
-  .right {
-    width: 65%;
-  }
-  
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+      position: relative;
+      background-image: linear-gradient(315deg, #d2ccc4 0%, #2f4353 74%);
+    }
+
+    .column {
+      float: left;
+      padding: 10px;
+    }
+
+    .left {
+      width: 35%;
+    }
+
+    .right {
+      width: 65%;
+    }
+
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
   </style>
 </head>
+
 <body>
   <section style="position:relative;z-index:1;">
     <div class="container" style="position: relative;text-align: center;color: white;z-index:-2;">
-      <div class="centered" style="position: absolute;top: 50%;left: 43%;transform: translate(-50%, -50%);font-size:36px;">{{user.first_name}} {{user.last_name}}</div>
-      <img src="https://images.pexels.com/photos/1526/dark-blur-blurred-gradient.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" style="height:130px;width:200%;margin-left:-60%;">
+      <div class="centered"
+        style="position: absolute;top: 50%;left: 43%;transform: translate(-50%, -50%);font-size:36px;">
+        {{user.first_name}} {{user.last_name}}</div>
+      <img
+        src="https://images.pexels.com/photos/1526/dark-blur-blurred-gradient.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"
+        style="height:130px;width:200%;margin-left:-60%;">
     </div>
   </section>
-<nav class="navbar navbar-custom">
-  <ul class="navbar-nav ml-auto">
+  <nav class="navbar navbar-custom">
+    <ul class="navbar-nav ml-auto">
+      <a class="navbar-brand" href="#" style="color:white;">
+        Profile
+      </a>
+    </ul>
     <a class="navbar-brand" href="#" style="color:white;">
-    Profile
-  </a></ul>
-<a class="navbar-brand" href="#" style="color:white;">
-  Dashboard
-</a>
-<a class="navbar-brand" href="#" style="color:white;">
-  Update Profile
-</a>
-<a class="navbar-brand" href="{% url 'logout' %}" style="color:white;" onclick="return confirm('Are you sure you want to logout?');">
-  Logout
-</a>
-</nav>
-<div class="row">
-  <div class="column left" style="background-color:#FAFAFA">
-    <img src="{{profile}}" style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-40%;z-index:1;position:relative;">
-    <div class="resumebox" style="background-color:lightgrey;width:350px;padding:25px;margin-left:50px;margin-top:50px;">
-      <p style="color:blue;text-align:center">Uploaded Documents</p>
-      {% for key,value in fields.items %}
-        {% if key == 'Uploaded Resume' %}<br>
-          {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
-        {% endif %}
-      {% endfor %}
-      <br>
-      <div>
-        <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg" style="margin-left:80px">Upload Resume</button></a>
-      </div>
-    </div>
-    <div class="avibox" style="background-color:rgb(211, 211, 211);width:350px;padding:25px;margin-left:50px;margin-top:50px;">
-      <p style="color:blue;text-align:center">Uploaded Video Interview</p>
-      {% for key,value in fields.items %}
-        {% if key == 'Video Interview' %}<br>
-          {{key}} - <a href={{value.url}}> {{value.avi_filename}}</a> <br>
-        {% endif %}
-      {% endfor %}
-      <br>
-      <div>
-        <a href="{% url 'upload-avi' %}"><button type="button" class="btn btn-info shadow-lg" style="margin-left:80px">Upload AVI</button></a>
-      </div>
-    </div>
-  </div>
-  <div class="column right">
-    <div class="detailsbox" style="background-color:#FAFAFA;width:650px;padding:25px;margin-left:70px;">
-    <h2>User Details</h2>
-    {% for key,value in fields.items %}
-    {% if key == 'Uploaded Resume' %}
-      {% comment %} {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br> {% endcomment %}
-    {% elif key == 'Profile Picture' %}
-      {% comment %} <img src="{{ MEDIA_URL }}{{value.url}}" style="width: 500px; height: 500px;"> {% endcomment %}
-    {% else %}
-    <div class="card bg-light text-dark" style="margin-top:10px">
-      <div class="card-body">{{key}} - {{value}}</div>
-    </div>
-      {% comment %} <p>{{key}} - {{value}}</p> {% endcomment %}
-    {% endif %}
-  {% endfor %}
-  <br>
-  <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-info shadow-lg">Update Profile</button></a>
-    </div>
-  </div>
-</div>
-</body>
-</html>
+      Dashboard
+    </a>
+    <a class="navbar-brand" href="#" style="color:white;">
+      Update Profile
+    </a>
+    <a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
+      onclick="return confirm('Are you sure you want to logout?');">
+      Logout
+    </a>
+  </nav>
 
+  <div class="row">
+    <div class="column left" style="background-color:#FAFAFA">
+      <img src="{{profile}}"
+        style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-40%;z-index:1;position:relative;">
+      <div class="resumebox"
+        style="background-color:lightgrey;width:350px;padding:25px;margin-left:50px;margin-top:50px;">
+        <p style="color:blue;text-align:center">Uploaded Documents</p>
+        {% for key,value in fields.items %}
+        {% if key == 'Uploaded Resume' %}<br>
+        {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br>
+        {% endif %}
+        {% endfor %}
+        <br>
+        <div>
+          <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg"
+              style="margin-left:80px">Upload Resume</button></a>
+        </div>
+      </div>
+      <div class="avibox"
+        style="background-color:rgb(211, 211, 211);width:350px;padding:25px;margin-left:50px;margin-top:50px;">
+        <p style="color:blue;text-align:center">Uploaded Video Interview</p>
+        {% for key,value in fields.items %}
+        {% if key == 'Video Interview' %}<br>
+        {{key}} - <a href={{value.url}}> {{value.avi_filename}}</a> <br>
+        {% endif %}
+        {% endfor %}
+        <br>
+        <div>
+          <a href="{% url 'upload-avi' %}"><button type="button" class="btn btn-info shadow-lg"
+              style="margin-left:80px">Upload AVI</button></a>
+        </div>
+      </div>
+    </div>
+    <div class="column right">
+      <div style="width: fit-content; margin: 0 auto;">
+        {% if messages %}
+      <!-- <ul class="messages"> -->
+        {% for message in messages %}
+        <p{% if message.tags %} class="alert-{{ message.tags }}" style="font-size: 18px; padding: 10px;" {% endif %}>{{ message }}</p>
+          {% endfor %}
+      <!-- </ul> -->
+      {% endif %}
+      </div>
+    
+      <div class="detailsbox" style="background-color:#FAFAFA;width:650px;padding:25px;margin-left:70px;">
+
+        <h2>User Details</h2>
+        {% for key,value in fields.items %}
+        {% if key == 'Uploaded Resume' %}
+        {% comment %} {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br> {% endcomment %}
+        {% elif key == 'Profile Picture' %}
+        {% comment %} <img src="{{ MEDIA_URL }}{{value.url}}" style="width: 500px; height: 500px;"> {% endcomment %}
+        {% else %}
+        <div class="card bg-light text-dark" style="margin-top:10px">
+          <div class="card-body">{{key}} - {{value}}</div>
+        </div>
+        {% comment %} <p>{{key}} - {{value}}</p> {% endcomment %}
+        {% endif %}
+        {% endfor %}
+        <br>
+        <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-info shadow-lg">Update
+            Profile</button></a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

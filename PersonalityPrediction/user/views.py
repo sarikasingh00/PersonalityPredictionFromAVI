@@ -67,9 +67,16 @@ def register_login(request):
 				return redirect('home')
 			else:
 				print("Login unsuccessful")
-		else:
-			user_form = UserRegisterForm(request.POST)
-			member_form = ApplicantRegisterForm(request.POST)
+				user_form = UserRegisterForm()
+				applicant_form = ApplicantRegisterForm()
+				messages.error(request, 'Incorrect username or password.')
+		elif request.POST['flag'] == 'register' or request.session['old_post'].POST['flag'] == 'register':
+			if 'old_post' in request.session:
+				user_form = UserRegisterForm(request.session['old_post'])
+				member_form = ApplicantRegisterForm(request.session['old_post'])
+			else:
+				user_form = UserRegisterForm(request.POST)
+				member_form = ApplicantRegisterForm(request.POST)
 			print(user_form.errors)
 			print(member_form.errors)
 			if member_form.is_valid() and user_form.is_valid():
@@ -82,8 +89,12 @@ def register_login(request):
 				return redirect('home')
 			else:
 				messages.error(request, f'Registration error!')
-				return redirect('login')
+				request.session['old_post'] = request.POST
+				return render(request, 'user/register_login.html', {'user_form': user_form, 'member_form': member_form, 'errors':user_form.errors})
+				# return redirect('login')
 	else:
+		# user_form = UserRegisterForm(request.POST)
+		print("In get")
 		user_form = UserRegisterForm()
 		applicant_form = ApplicantRegisterForm()
 	return render(request, 'user/register_login.html', {'user_form': user_form, 'member_form': applicant_form, })

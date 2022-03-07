@@ -26,16 +26,18 @@ def resume_upload(request):
 		print("in POST")
 		resume_file = request.FILES['resume']
 		applicant_obj = Applicant.objects.get(user = request.user)
-		applicant_obj.resume = resume_file
-		try :
-			applicant_obj.save()
-			messages.success(request, 'Resume Uploaded!')
-			print(applicant_obj.resume.name)
-			extract_skills(applicant_obj.resume.name, applicant_obj)
-		except Exception as e:
-			print("Object not saved", e )
-			messages.error(request, 'Upload not successful')
-	
+		if resume_file.name.endswith('.pdf'):
+			applicant_obj.resume = resume_file
+			try :
+				applicant_obj.save()
+				messages.success(request, 'Resume Uploaded!')
+				print(applicant_obj.resume.name)
+				extract_skills(applicant_obj.resume.name, applicant_obj)
+			except Exception as e:
+				print("Object not saved", e )
+				messages.error(request, 'Upload not successful')
+		else:
+			messages.error(request, 'You must upload a PDF file')
 		return redirect('home')
 	else:
 		resume_form = ApplicantResumeForm()
@@ -49,6 +51,9 @@ def avi_upload(request):
 	if request.method == 'POST':
 		print("in POST")
 		avi_file = request.FILES['avi']
+		if not avi_file.name.endswith('.mp4'):
+			messages.error(request, 'You must upload an MP4 file')
+			return redirect('home')
 		applicant_obj.avi = avi_file
 		applicant_obj.avi_upload_date = datetime.date.today().strftime("%Y-%m-%d")
 		try :
