@@ -70,14 +70,20 @@ class Applicant(models.Model):
     )
 
 	def resume_filename(self):
-		return os.path.basename(self.resume.name)	
+		if self.resume:
+			return os.path.basename(self.resume.name)	
+		else:
+			return '-'
 
 	
 	def profile_filename(self):
 		return os.path.basename(self.profile_pic.name)
 
 	def avi_filename(self):
-		return os.path.basename(self.avi.name)
+		if self.avi:
+			return os.path.basename(self.avi.name)
+		else:
+			return '-'
 
 	def __str__(self):
 		return self.user.first_name

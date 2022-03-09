@@ -1,6 +1,8 @@
+from email.mime import audio
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from sklearn import pipeline
+from .models import PersonalityTraits
 from user.models import Applicant
 from .forms import ApplicantResumeForm, ApplicantAVIForm
 from pyresparser import ResumeParser
@@ -10,14 +12,20 @@ import avi_features
 # from django.shortcuts import HttpResponseRedirect
 import datetime
 # from datetime import date
-
+import matplotlib.pyplot as plt
+from io import StringIO, BytesIO
+import numpy as np
+import plotly.express as px
+import plotly.io as pio
+import pandas as pd
+from plotly.offline import plot
+import plotly.graph_objects as go
 
 
 # Create your views here.
 def home(request):
 	if request.method == 'GET':
-		return render(request,"applicant/applicant_home.html")
-
+		return render(request, "applicant/applicant_home.html")
 
 
 def resume_upload(request):
@@ -25,25 +33,50 @@ def resume_upload(request):
 	if request.method == 'POST':
 		print("in POST")
 		resume_file = request.FILES['resume']
-		applicant_obj = Applicant.objects.get(user = request.user)
+		applicant_obj = Applicant.objects.get(user=request.user)
 		if resume_file.name.endswith('.pdf'):
 			applicant_obj.resume = resume_file
-			try :
+			try:
 				applicant_obj.save()
 				messages.success(request, 'Resume Uploaded!')
 				print(applicant_obj.resume.name)
 				extract_skills(applicant_obj.resume.name, applicant_obj)
 			except Exception as e:
-				print("Object not saved", e )
+				print("Object not saved", e)
 				messages.error(request, 'Upload not successful')
 		else:
 			messages.error(request, 'You must upload a PDF file')
 		return redirect('home')
 	else:
+		print('in get method')
 		resume_form = ApplicantResumeForm()
-		return render(request,"applicant/upload_resume.html",{'form':resume_form})
+		return render(request, "applicant/upload_resume.html", {'form': resume_form})
 
 
+def return_graph(user):
+	print("return graph")
+
+	if PersonalityTraits.objects.filter(user = user).exists():
+		traits = PersonalityTraits.objects.get(user=user)
+		df = pd.DataFrame(dict(
+			# r=[0.1, 0.5, 0.2, 0.2, 0.3],
+			r = [traits.o, traits.c, traits.e, traits.a, traits.n],
+			theta= ['Openness', 'Conscientiousness',  'Extraversion', 'Agreeableness', 'Neuroticism']))
+		
+		fig = px.line_polar(df, r='r', theta='theta', line_close=True, range_r=[0,1], title='Your OCEAN Traits')
+		fig.update_traces(fill='toself')
+
+		imgdata = BytesIO()
+		pio.write_image(fig, imgdata, format='svg')
+		imgdata.seek(0)
+
+		data = imgdata.getvalue()
+		return data
+	else:
+		return None
+
+	
+	
 
 def avi_upload(request):
 	print("in avi upload view")
@@ -63,8 +96,14 @@ def avi_upload(request):
 			audio_feature_path, video_feature_path = avi_features.feature_pipeline(applicant_obj.avi.name)
 			print(audio_feature_path, video_feature_path)
 			print("audio ft extracted, moving to preds")
-			print(audio_model.ocean_predict(audio_feature_path))
-			print(image_model.ocean_predict(video_feature_path))
+			audio_pred = audio_model.ocean_predict(audio_feature_path)[0][0]
+			img_pred = image_model.ocean_predict(video_feature_path)
+			print(audio_pred)
+			print(img_pred)
+			pred = (audio_pred+img_pred)/2
+			pred = pred.tolist()
+			traits = PersonalityTraits(user=request.user, o=pred[0], c=pred[1], e=pred[2], a=pred[3], n=pred[4])
+			traits.save()
 		except Exception as e:
 			print("Object not saved", e )
 			messages.error(request, 'Upload not successful')
@@ -83,12 +122,13 @@ def avi_upload(request):
 				return render(request,"applicant/upload_avi.html",{'flag': True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%Y-%m-%d")})
 			else: # change flag to flase later
 				avi_form = ApplicantAVIForm() #remove later
-				return render(request,"applicant/upload_avi.html",{'flag':True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%d-%m-%Y")})
+				return render(request,"applicant/upload_avi.html",{'flag':True, 'form':avi_form, 'date': applicant_obj.avi_upload_date.strftime("%d-%m-%Y"),})
 
 
 def dashboard(request):
 	user = request.user
 	applicant = Applicant.objects.filter(user=user).first()
+	print(applicant.phone_number)
 	fields = {
 		'First Name' : applicant.user.first_name,
 		'Last Name' : applicant.user.last_name,
@@ -107,10 +147,11 @@ def dashboard(request):
 		fields['Key Skills'] = ''
 	# print(fields)
 	# print(audio_model.ocean_predict())
-	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url})
+	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user)})
 
 
 def extract_skills(resume_path, applicant_obj):
+	print('in extract skills')
 	data = ResumeParser('media/' + resume_path).get_extracted_data()
 	print(data['skills'])
 	# applicant_obj = Applicant.objects.get(user = request.user)
