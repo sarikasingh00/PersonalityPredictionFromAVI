@@ -63,7 +63,7 @@ def return_graph(user):
 			r = [traits.o, traits.c, traits.e, traits.a, traits.n],
 			theta= ['Openness', 'Conscientiousness',  'Extraversion', 'Agreeableness', 'Neuroticism']))
 		
-		fig = px.line_polar(df, r='r', theta='theta', line_close=True, range_r=[0,1], title='Your OCEAN Traits')
+		fig = px.line_polar(df, r='r', theta='theta', line_close=True, range_r=[0,1], title='Your OCEAN Traits', markers=True)
 		fig.update_traces(fill='toself')
 
 		imgdata = BytesIO()
@@ -147,7 +147,7 @@ def dashboard(request):
 		fields['Key Skills'] = ''
 	# print(fields)
 	# print(audio_model.ocean_predict())
-	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user)})
+	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user).decode('utf-8')})
 
 
 def extract_skills(resume_path, applicant_obj):
