@@ -11,6 +11,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src='https://cdn.plot.ly/plotly-2.9.0.min.js'></script>
   <style>
     .navbar-custom {
       background-color: #4591ba;
@@ -152,11 +153,45 @@
       </div>
     </div>
   </div>
-  {% if graph is not None %}
+  <!-- {% if graph is not None %}
     {{ graph|safe }}
   {% else %}
     <p>Please Upload Your Video Interview</p>
-  {% endif %}
+  {% endif %} -->
+
+{% if traits %}
+  <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+{% else %}
+  <p>Please Upload Your Video Interview</p>
+{% endif %}
+
+<script>
+var r = JSON.parse("{{traits|escapejs}}");
+console.log(r);
+data = [{
+  type: 'scatterpolar',
+  // r: [39, 28, 8, 7, 28, 39],
+  r: r[0],
+  theta:  ['Openness', 'Conscientiousness',  'Extraversion', 'Agreeableness', 'Neuroticism'],
+  fill: 'toself',
+  name: 'Big 5 Personality Traits'
+}]
+
+layout = {
+  polar: {
+    radialaxis: {
+      visible: true,
+      range: [0, 1]
+    }
+  },
+  title: 'Your OCEAN Traits',
+  // showlegend: true
+}
+
+Plotly.newPlot("myDiv", data, layout)
+</script>
+
+
 </body>
 
 </html>

@@ -20,6 +20,7 @@ import plotly.io as pio
 import pandas as pd
 from plotly.offline import plot
 import plotly.graph_objects as go
+from json import dumps
 
 
 # Create your views here.
@@ -53,29 +54,37 @@ def resume_upload(request):
 		return render(request, "applicant/upload_resume.html", {'form': resume_form})
 
 
-def return_graph(user):
-	print("return graph")
+# def return_graph(user):
+# 	print("return graph")
 
-	if PersonalityTraits.objects.filter(user = user).exists():
-		traits = PersonalityTraits.objects.get(user=user)
-		df = pd.DataFrame(dict(
-			# r=[0.1, 0.5, 0.2, 0.2, 0.3],
-			r = [traits.o, traits.c, traits.e, traits.a, traits.n],
-			theta= ['Openness', 'Conscientiousness',  'Extraversion', 'Agreeableness', 'Neuroticism']))
+# 	if PersonalityTraits.objects.filter(user = user).exists():
+# 		traits = PersonalityTraits.objects.get(user=user)
+# 		df = pd.DataFrame(dict(
+# 			# r=[0.1, 0.5, 0.2, 0.2, 0.3],
+# 			r = [traits.o, traits.c, traits.e, traits.a, traits.n],
+# 			theta= ['Openness', 'Conscientiousness',  'Extraversion', 'Agreeableness', 'Neuroticism']))
 		
-		fig = px.line_polar(df, r='r', theta='theta', line_close=True, range_r=[0,1], title='Your OCEAN Traits', markers=True)
-		fig.update_traces(fill='toself')
+# 		fig = px.line_polar(df, r='r', theta='theta', line_close=True, range_r=[0,1], title='Your OCEAN Traits', markers=True)
+# 		fig.update_traces(fill='toself')
 
-		imgdata = BytesIO()
-		pio.write_image(fig, imgdata, format='svg')
-		imgdata.seek(0)
+# 		imgdata = BytesIO()
+# 		pio.write_image(fig, imgdata, format='svg')
+# 		imgdata.seek(0)
 
-		data = imgdata.getvalue()
-		return data
-	else:
-		return None
+# 		data = imgdata.getvalue()
+# 		return data
+# 	else:
+# 		return None
 
 	
+def trait_values(user):
+	if PersonalityTraits.objects.filter(user = user).exists():
+		traits = PersonalityTraits.objects.get(user=user)
+		
+		r = [traits.o, traits.c, traits.e, traits.a, traits.n],
+		return r
+	else:
+		return None
 	
 
 def avi_upload(request):
@@ -147,7 +156,8 @@ def dashboard(request):
 		fields['Key Skills'] = ''
 	# print(fields)
 	# print(audio_model.ocean_predict())
-	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user).decode('utf-8')})
+	# return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user).decode('utf-8'), 'traits': dumps(trait_values(request.user))})
+	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url, 'traits': dumps(trait_values(request.user))})
 
 
 def extract_skills(resume_path, applicant_obj):
