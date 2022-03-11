@@ -163,7 +163,7 @@ def ocean_predict(image_feature_path):
 
 	model.built=True
 
-	model.load_weights("D:\\Sarika\\PersonalityPredictionFromAVI\\models\\image 4\\debias_false 50.h5")
+	model.load_weights("D:\\Sarika\\PersonalityPredictionFromAVI\\models\\image 4-new\\debias_true 48.h5")
 	frame_names = glob.glob(image_feature_path + '*')
 	predictions =  np.empty((0,5))
 	for frame in frame_names:
