@@ -111,7 +111,16 @@ def avi_upload(request):
 			print(img_pred)
 			pred = (audio_pred+img_pred)/2
 			pred = pred.tolist()
-			traits = PersonalityTraits(user=request.user, o=pred[0], c=pred[1], e=pred[2], a=pred[3], n=pred[4])
+			if PersonalityTraits.objects.filter(user = request.user).exists():
+				traits = PersonalityTraits.objects.get(user = request.user)
+				traits.o = pred[0]
+				traits.c = pred[1]
+				traits.e = pred[2]
+				traits.a = pred[3]
+				traits.n = pred[4]
+			else:
+				traits = PersonalityTraits(user=request.user, o=pred[0], c=pred[1], e=pred[2], a=pred[3], n=pred[4])
+			
 			traits.save()
 		except Exception as e:
 			print("Object not saved", e )
