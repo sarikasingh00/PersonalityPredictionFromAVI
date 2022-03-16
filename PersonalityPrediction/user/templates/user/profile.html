@@ -1,4 +1,39 @@
 {% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Profile Update</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src='https://cdn.plot.ly/plotly-2.9.0.min.js'></script>
+  <style>
+  .navbar-custom {
+	background-color: #4591ba;
+	background-image: linear-gradient(315deg, #678ca1 0%, #4591ba 74%);
+  }
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-custom">
+		<ul class="navbar-nav ml-auto">
+		  <a class="navbar-brand" href="{% url 'home' %}" style="color:white;">
+			Dashboard
+		  </a>
+		</ul>
+		<a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
+		  Update Profile
+		</a>
+		<a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
+		  onclick="return confirm('Are you sure you want to logout?');">
+		  Logout
+		</a>
+	  </nav>
+	
 	{% if messages %}
 	<ul class="messages">
 		{% for message in messages %}
@@ -7,17 +42,12 @@
 	</ul>
 	{% endif %}
     <div class="content-section">
-   		<div class="media">
-	        {% comment %} <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"> {% endcomment %}
-	        <div class="media-body">
-	        	<h2 class="account-heading">{{ user.username }}</h2>
-	        	<p class="text-secondary">{{ user.email }}</p>
-	        </div>
-    	</div>
-    	<form method = "POST" enctype="multipart/form-data">
+		<br>
+    	<form method = "POST" enctype="multipart/form-data" style="margin-left:50px">
 			{% csrf_token %}
-			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Profile Info</legend>
+			
+			<fieldset class="form-group" style="width:1000px">
+				<legend class="border-bottom mb-4" style="font-weight:bold;">Profile Info</legend>
 				{{ u_form|crispy }}
 				{{ a_form|crispy }}
 			</fieldset>
@@ -26,3 +56,5 @@
 			</div>
 		</form>
     </div>
+</body>
+</html>
