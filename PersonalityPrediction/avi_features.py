@@ -40,10 +40,12 @@ def audio_extract(path):
 	print(output_folder)
 
 
-	shutil.rmtree(output_folder)
-	if not os.path.isdir(output_folder):
-		print('making directory' + output_folder)
-		os.mkdir(output_folder)
+	if os.path.isdir(output_folder):
+		print("Delete first")
+		shutil.rmtree(output_folder)
+	# if not os.path.isdir(output_folder):
+	print('making directory' + output_folder)
+	os.mkdir(output_folder)
 
 	
 	output_path = output_folder + name + '.wav'
@@ -69,11 +71,12 @@ def audio_feature(path):
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
 	print(output_folder)
 
-	shutil.rmtree(output_folder)
-
-	if not os.path.isdir(output_folder):
-		print('making directory' + output_folder)
-		os.mkdir(output_folder)
+	if os.path.isdir(output_folder):
+		print("Delete first")
+		shutil.rmtree(output_folder)	
+	
+	print('making directory' + output_folder)
+	os.mkdir(output_folder)
 
 	output_path = output_folder + name
 
@@ -93,11 +96,13 @@ def frame_extract(path):
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
 	print("frame output folder - ", output_folder)
 
-	shutil.rmtree(output_folder)
+	if os.path.isdir(output_folder):
+		print("Delete first")
+		shutil.rmtree(output_folder)
 
-	if not os.path.isdir(output_folder):
-		print('making directory' + output_folder)
-		os.mkdir(output_folder)
+	# if not os.path.isdir(output_folder):
+	print('making directory' + output_folder)
+	os.mkdir(output_folder)
 	
 
 	cap = cv2.VideoCapture(path)   # capturing the video from the given path
@@ -137,10 +142,12 @@ def loop_frame_crop(path):
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
 	print(output_folder)
 
-	shutil.rmtree(output_folder)
-	if not os.path.isdir(output_folder):
-		print('making directory' + output_folder)
-		os.mkdir(output_folder)
+	if os.path.isdir(output_folder):
+		print("Delete first")
+		shutil.rmtree(output_folder)
+	
+	print('making directory' + output_folder)
+	os.mkdir(output_folder)
 
 	frame_names = glob.glob(path + '*')
 	frame_names.sort()

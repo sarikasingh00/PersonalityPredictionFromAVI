@@ -68,8 +68,8 @@
   </nav>
 
   <div class="row">
-    <div class="column left" style="background-color:#ECECEC">
-      <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    <div class="column left" style="background-color:#ECECEC; ">
+      <img src={{profile}}
         style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-40%;z-index:1;position:relative;">
       <div class="resumebox"
         style="background-color:white;width:350px;padding:25px;margin-left:50px;margin-top:50px;border-radius:6px">
@@ -100,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div class="column right" style="background-color:#FAFAFA">
+    <div class="column right" style="background-color:#FAFAFA; ">
       <div style="width: fit-content; margin: 0 auto;">
         {% if messages %}
       <!-- <ul class="messages"> -->
@@ -130,10 +130,10 @@
           <div class="card-body"><h6 style="padding-bottom:10px;margin-top:-12px;color:#888888">{{value}}</h6></div>
         </div>
         {% elif key == 'Video Interview' %}
-        <h6 style="margin-top:-70px;margin-left:380px;color:#525050">{{key}}</h6>
+        <!-- <h6 style="margin-top:-70px;margin-left:380px;color:#525050">{{key}}</h6>
         <div class="card bg-light text-dark" style="margin-top:10px;height:40px;width:300px;margin-left:380px">
           <div class="card-body"><h6 style="padding-bottom:10px;margin-top:-12px;color:#888888">{{value}}</h6></div>
-        </div>
+        </div> -->
         {% elif key == 'Key Skills' %}
         <h6 style="margin-top:35px;color:#525050">{{key}}</h6>
         <div class="card bg-light text-dark" style="margin-top:10px;height:180px;width:100%;">

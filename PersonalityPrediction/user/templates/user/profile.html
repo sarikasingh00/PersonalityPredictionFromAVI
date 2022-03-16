@@ -47,12 +47,12 @@
 			{% csrf_token %}
 			
 			<fieldset class="form-group" style="width:1000px">
-				<legend class="border-bottom mb-4" style="font-weight:bold;">Profile Info</legend>
+				<legend class="border-bottom mb-4" style="font-weight:bold;">Your Profile Information</legend>
 				{{ u_form|crispy }}
 				{{ a_form|crispy }}
 			</fieldset>
 			<div class="form-group">
-				<button class="btn btn-outline-info" type="submit">Update</button>
+				<button type="button" class="btn btn-info shadow-lg" style="background-color:#57A0D3;margin-top:20px" type="submit">Update</button>
 			</div>
 		</form>
     </div>

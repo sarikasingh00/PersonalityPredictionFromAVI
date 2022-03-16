@@ -85,7 +85,7 @@ def register_login(request):
 				member.user = user
 				member.save()
 				login(request, user)
-				messages.success(request, f'Registration complete! You may log in!')
+				messages.success(request, f'Registration complete!')
 				return redirect('home')
 			else:
 				messages.error(request, f'Registration error!')

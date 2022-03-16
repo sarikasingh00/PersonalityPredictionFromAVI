@@ -99,9 +99,8 @@ def avi_upload(request):
 		applicant_obj.avi = avi_file
 		applicant_obj.avi_upload_date = datetime.date.today().strftime("%Y-%m-%d")
 		try :
-			applicant_obj.save()
-			messages.success(request, 'Video Interview Uploaded!')
 			print(applicant_obj.avi.name)
+			applicant_obj.save()
 			audio_feature_path, video_feature_path = avi_features.feature_pipeline(applicant_obj.avi.name)
 			print(audio_feature_path, video_feature_path)
 			print("audio ft extracted, moving to preds")
@@ -122,6 +121,7 @@ def avi_upload(request):
 				traits = PersonalityTraits(user=request.user, o=pred[0], c=pred[1], e=pred[2], a=pred[3], n=pred[4])
 			
 			traits.save()
+			messages.success(request, 'Video Interview Uploaded!')
 		except Exception as e:
 			print("Object not saved", e )
 			messages.error(request, 'Upload not successful')
@@ -160,7 +160,7 @@ def dashboard(request):
 	}
 	# 
 	if 'skills' in applicant.key_skills:
-		fields['Key Skills'] = applicant.key_skills['skills']
+		fields['Key Skills'] = ', '.join(applicant.key_skills['skills'])
 	else:
 		fields['Key Skills'] = ''
 	# print(fields)
