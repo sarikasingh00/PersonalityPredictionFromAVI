@@ -125,15 +125,16 @@
 <body>
   <nav class="navbar navbar-custom">
     <ul class="navbar-nav ml-auto">
-      <a class="navbar-brand" href="#" style="color:white;">
-        PROFILE
+      <a class="navbar-brand" href="{% url 'home' %}" style="color:white;">
+        Dashboard
       </a>
     </ul>
-    <a class="navbar-brand" href="#" style="color:white;">
-      DASHBOARD
+    <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
+      Update Profile
     </a>
-    <a class="navbar-brand" href="#" style="color:white;">
-      UPDATE PROFILE
+    <a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
+      onclick="return confirm('Are you sure you want to logout?');">
+      Logout
     </a>
   </nav>
   <br><br>
