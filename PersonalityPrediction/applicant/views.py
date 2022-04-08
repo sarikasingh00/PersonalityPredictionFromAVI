@@ -152,11 +152,11 @@ def dashboard(request):
 		'Last Name' : applicant.user.last_name,
 		'E-mail' : applicant.user.email,
 		'Applied Posts': applicant.applied_posts,
-		'Uploaded Resume': applicant,
+		'Uploaded Resume': applicant.resume,
 		'Profile Picture': applicant.profile_pic,
 		'Phone Number': applicant.phone_number,
 		# 'Key Skills': applicant.key_skills['skills'],
-		'Video Interview': applicant,
+		'Video Interview': applicant.resume,
 	}
 	# 
 	if 'skills' in applicant.key_skills:
@@ -166,7 +166,7 @@ def dashboard(request):
 	# print(fields)
 	# print(audio_model.ocean_predict())
 	# return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user).decode('utf-8'), 'traits': dumps(trait_values(request.user))})
-	return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url, 'traits': dumps(trait_values(request.user))})
+	return render(request,"applicant/dashboard.html", {'applicant': applicant, 'fields':fields, 'profile': applicant.profile_pic.url, 'traits': dumps(trait_values(request.user))})
 
 
 def extract_skills(resume_path, applicant_obj):

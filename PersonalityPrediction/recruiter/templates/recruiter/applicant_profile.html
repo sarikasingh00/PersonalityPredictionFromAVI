@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-  <title>Applicant Home</title>
+  <title>Applicant Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -50,7 +50,7 @@
     <div class="container" style="position: relative;text-align: center;color: white;z-index:-2;">
       <div class="centered"
         style="position: absolute;top: 50%;left: 38%;transform: translate(-50%, -50%);font-size:36px;">
-        {{user.first_name}} {{user.last_name}}</div>
+        {{applicant.user.first_name}} {{applicant.user.last_name}}</div>
       <img
         src="https://images.pexels.com/photos/1526/dark-blur-blurred-gradient.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"
         style="height:130px;width:180%;margin-left:-60%;">
@@ -62,9 +62,9 @@
         Dashboard
       </a>
     </ul>
-    <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
+    <!-- <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
       Update Profile
-    </a>
+    </a> -->
     <a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
       onclick="return confirm('Are you sure you want to logout?');">
       Logout
@@ -73,7 +73,7 @@
 
   <div class="row">
     <div class="column left" style="background-color:#ECECEC; ">
-      <img src={{profile}}
+      <img src="{{ MEDIA_URL }}{{applicant.profile_pic.url}}"
         style="border-radius:50%;height:300px;width:300px;margin-left:70px;margin-top:-33%;z-index:1;position:relative; border: 3px solid #000000;">
       <div class="resumebox"
         style="background-color:white;width:350px;padding:25px;margin-left:50px;margin-top:50px;border-radius:6px">
@@ -81,14 +81,18 @@
         <hr>
         {% for key,value in fields.items %}
         {% if key == 'Uploaded Resume' %}<br>
-        {{key}} - <a href={{value.url}}> {{applicant.resume_filename}}</a> <br>
+            {% if value %}
+                {{key}} - <a href="{{value.url}}"> {{applicant.resume_filename}}</a> <br>
+            {% else %}
+                Resume not uploaded yet
+            {% endif %}
         {% endif %}
         {% endfor %}
         <br>
-        <div>
+        <!-- <div>
           <a href="{% url 'upload-resume' %}"><button type="button" class="btn btn-info shadow-lg"
               style="margin-left:80px;background-color:#57A0D3">Upload Resume</button></a>
-        </div>
+        </div> -->
       </div>
       <div class="avibox"
         style="background-color:white;width:350px;padding:25px;margin-left:50px;margin-top:50px;border-radius:7px">
@@ -96,34 +100,28 @@
         <hr>
         {% for key,value in fields.items %}
         {% if key == 'Video Interview' %}<br>
-        {{key}} - <a href={{value.url}}> {{applicant.avi_filename}}</a> <br>
+            {% if value%}
+                {{key}} - <a href={{value.url}}> {{applicant.avi_filename}}</a> <br>
+            {% else %}
+                Video Interview Not Uploaded Yet
+            {% endif %}
         {% endif %}
         {% endfor %}
         <br>
-        <div>
+        <!-- <div>
           <a href="{% url 'upload-avi' %}"><button type="button" class="btn btn-info shadow-lg"
               style="margin-left:80px;background-color:#57A0D3">Upload AVI</button></a>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="column right" style="background-color:#FAFAFA; ">
-      <div style="width: fit-content; margin: 0 auto;">
-        {% if messages %}
-        <!-- <ul class="messages"> -->
-        {% for message in messages %}
-        <p{% if message.tags %} class="alert-{{ message.tags }}" style="font-size: 18px; padding: 10px;" {% endif %}>
-        {{  message }}</p>
-          {% endfor %}
-          <!-- </ul> -->
-          {% endif %}
-      </div>
 
       <div class="detailsbox" style="background-color:#FAFAFA;width:650px;padding:25px;margin-left:40px;">
 
         <h3>User Details</h3>
         {% for key,value in fields.items %}
         {% if key == 'Uploaded Resume' %}
-        {% comment %} {{key}} - <a href={{value.url}}> {{value.resume_filename}}</a> <br> {% endcomment %}
+        {% comment %} {{key}} - <a href="{{ MEDIA_URL }}{{value.url}}" download="{{ MEDIA_URL }}{{value.url}}"> {{value.resume_filename}}</a> <br> {% endcomment %}
         {% elif key == 'Profile Picture' %}
         {% comment %} <img src="{{ MEDIA_URL }}{{value.url}}" style="width: 500px; height: 500px;"> {% endcomment %}
         {% elif key == 'Last Name' %}
@@ -163,9 +161,6 @@
         {% endif %}
         {% endfor %}
         <br>
-        <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-info shadow-lg"
-            style="background-color:#57A0D3;margin-top:20px">Update
-            Profile</button></a>
       </div>
     </div>
   </div>
@@ -176,7 +171,7 @@
   {% endif %} -->
 
   <section>
-    <p style="text-align: center; font-size: 2.5rem; margin-top: 2%;"> Your Big 5 Personality Traits</p>
+    <p style="text-align: center; font-size: 2.5rem; margin-top: 2%;"> {{applicant.user.first_name}}'s Big 5 Personality Traits</p>
     <hr>
   </section>
   {% if traits %}
@@ -191,13 +186,14 @@
     </div>
   </div>
   {% else %}
+
   <div class="row">
     <div class="column graph">
       <img src="https://discuss.oliveboard.in/uploadedimages/956020-1613381156" style="width: 100%;">
     </div>
     <div class="column graph">
       <div id='myDiv'>
-        <p>Please Upload Your Video Interview</p>
+        <p>AVI not uploaded</p>
       </div>
     </div>
   </div>
@@ -222,7 +218,7 @@
           range: [0, 1]
         }
       },
-      title: 'Your OCEAN Traits',
+      title: 'OCEAN Traits',
       // showlegend: true
     }
 

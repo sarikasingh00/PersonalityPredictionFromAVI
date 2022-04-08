@@ -43,16 +43,36 @@
 	{% endif %}
     <div class="content-section">
 		<br>
-    	<form method = "POST" enctype="multipart/form-data" style="margin-left:50px">
+    	<form method = "POST" enctype="multipart/form-data" style="margin-left:16.5%;">
 			{% csrf_token %}
 			
 			<fieldset class="form-group" style="width:1000px">
 				<legend class="border-bottom mb-4" style="font-weight:bold;">Your Profile Information</legend>
-				{{ u_form|crispy }}
-				{{ a_form|crispy }}
+				<!-- {{ u_form|crispy }} -->
+				<!-- {{ a_form|crispy }} -->
+				<div class="container">
+					<div class="row">
+					{% for field in u_form %}
+					  <div class="col-sm-6">
+						<b>{{ field.label_tag }}</b> - {{ field }} 
+						<br>
+					  </div>
+					{% endfor %}
+					</div>  
+				  </div>
+				  <div class="container">
+					<div class="row">
+					{% for field in a_form %}
+					  <div class="col-sm-6">
+						<b>{{ field.label_tag }}</b> - {{ field }} 
+						<br>
+					  </div>
+					{% endfor %}
+					</div>  
+				  </div>
 			</fieldset>
 			<div class="form-group">
-				<button type="button" class="btn btn-info shadow-lg" style="background-color:#57A0D3;margin-top:20px" type="submit">Update</button>
+				<button class="btn btn-info shadow-lg" style="background-color:#57A0D3;margin-top:10px" type="submit">Update</button>
 			</div>
 		</form>
     </div>

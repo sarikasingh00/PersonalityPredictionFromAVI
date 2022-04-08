@@ -1,5 +1,5 @@
 from django import forms
-from user.models import Applicant
+from user.models import Applicant, Recruiter
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -21,3 +21,9 @@ class ApplicantEditForm(forms.ModelForm):
 	class Meta:
 		model = Applicant
 		fields = ['key_skills', 'phone_number', 'profile_pic']
+
+
+class RecruiterRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Recruiter
+        fields = ['is_type']
