@@ -7,7 +7,7 @@ from . import views as recruiter_views
 
 urlpatterns = [
     path('', recruiter_views.dashboard, name='recruiter-home'),
-    path('/<str:o>/<str:c>/<str:e>/<str:a>/<str:n>/', recruiter_views.dashboard, name='recruiter-home'),
+    # path('/<str:o>/<str:c>/<str:e>/<str:a>/<str:n>/', recruiter_views.dashboard, name='recruiter-home'),
     path('profile/<str:username>/', recruiter_views.applicant_profile, name='applicant-profile'),
     # path('upload-avi/', applicant_views.avi_upload, name='upload-avi'),
     # # path('', fine_views.manage_fines,name='manage-fines'),

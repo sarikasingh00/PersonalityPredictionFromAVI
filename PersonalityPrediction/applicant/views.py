@@ -156,7 +156,7 @@ def dashboard(request):
 		'Profile Picture': applicant.profile_pic,
 		'Phone Number': applicant.phone_number,
 		# 'Key Skills': applicant.key_skills['skills'],
-		'Video Interview': applicant.resume,
+		'Video Interview': applicant.avi,
 	}
 	# 
 	if 'skills' in applicant.key_skills:
