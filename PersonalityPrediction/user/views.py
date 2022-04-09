@@ -4,7 +4,7 @@ from user.models import Applicant,Recruiter
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
-from .forms import UserRegisterForm, ApplicantRegisterForm, ApplicantEditForm
+from .forms import UserRegisterForm, ApplicantRegisterForm,RecruiterRegisterForm, ApplicantEditForm
 from django.contrib.auth import authenticate, login
 
 # Create your views here.
@@ -20,7 +20,7 @@ def home(request):
 	print(request.user)
 	if Recruiter.objects.filter(user=request.user).first():
 		print("recruiter")
-		return render(request,"recruiter/recruiter_home.html")
+		return redirect('recruiter-home')
 	else:
 		print("applicant")
 		# return render(request,"applicant/applicant_home.html")
@@ -73,10 +73,20 @@ def register_login(request):
 		elif request.POST['flag'] == 'register' or request.session['old_post'].POST['flag'] == 'register':
 			if 'old_post' in request.session:
 				user_form = UserRegisterForm(request.session['old_post'])
-				member_form = ApplicantRegisterForm(request.session['old_post'])
+				print(request.POST['is_type'])
+				# member_form = ApplicantRegisterForm(request.session['old_post'])
+				if request.POST['is_type'] == 'Recruiter':
+					member_form = RecruiterRegisterForm(request.POST)
+				else:
+					member_form = ApplicantRegisterForm(request.POST)
 			else:
+				print(request.POST)
+				print(request.POST['is_type'])
 				user_form = UserRegisterForm(request.POST)
-				member_form = ApplicantRegisterForm(request.POST)
+				if request.POST['is_type'] == 'Recruiter':
+					member_form = RecruiterRegisterForm(request.POST)
+				else:
+					member_form = ApplicantRegisterForm(request.POST)
 			print(user_form.errors)
 			print(member_form.errors)
 			if member_form.is_valid() and user_form.is_valid():
@@ -85,7 +95,7 @@ def register_login(request):
 				member.user = user
 				member.save()
 				login(request, user)
-				messages.success(request, f'Registration complete! You may log in!')
+				messages.success(request, f'Registration complete!')
 				return redirect('home')
 			else:
 				messages.error(request, f'Registration error!')

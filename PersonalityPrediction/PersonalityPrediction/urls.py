@@ -35,6 +35,7 @@ urlpatterns = [
     # path('logout/', applicant_views.logout, name = 'logout'),
     path('home/',user_views.home, name='home'),
     path('applicant/',include('applicant.urls')),
+    path('recruiter/',include('recruiter.urls')),
     path('edit_profile/', user_views.edit_profile, name = 'edit-profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

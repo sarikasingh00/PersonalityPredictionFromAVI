@@ -1,0 +1,40 @@
+<html>
+
+<head>
+</head>
+
+<body>
+
+    {% for ocean, applicant in applicants %}
+    <!-- {{applicant.profile_pic}} -->
+    <img src="{{ MEDIA_URL }}{{applicant.profile_pic.url}}" style="width: 100px; height: 100px;">
+    <a href="{% url 'applicant-profile' applicant.user.username %}">{{applicant.user.first_name}} {{applicant.user.last_name}} </a>, 
+    {{ocean.o|floatformat:2}} ,{{ocean.c|floatformat:2}} , {{ocean.e|floatformat:2}} , {{ocean.a|floatformat:2}} , {{ocean.n|floatformat:2}}<br>
+    {% if 'skills' in applicant.key_skills %}
+    {{applicant.key_skills.skills|join:" , " }}
+    {% else %}
+    Resume Note Uploaded Yet
+    {%endif%}
+    <br>
+
+    {% endfor %}
+    Filter by OCEAN traits
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="O">O</label> <input type="text" id="O" name="O"><br>
+        <label for="C">C</label> <input type="text" id="C" name="C"><br>
+        <label for="E">E</label> <input type="text" id="E" name="E"><br>
+        <label for="A">A</label> <input type="text" id="A" name="A"><br>
+        <label for="N">N</label> <input type="text" id="N" name="N"><br>
+        <!-- <label for="Search">Search by Name</label> <input type="text" id="Search" name="Search"><br> -->
+        <button type="submit">Filter</button>
+    </form>
+    Search form
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="Search">Search by Name</label> <input type="text" id="Search" name="Search"><br>
+        <button type="submit">Search</button>
+    </form>
+</body>
+
+</html>

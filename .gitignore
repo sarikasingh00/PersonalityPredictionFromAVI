@@ -356,6 +356,7 @@ models/
 First Impressions/
 dataframes/
 PersonalityPrediction/media/
+PersonalityPrediction/db.sqlite3
 text.txt
 drive_upload.py
 client_secrets.json
