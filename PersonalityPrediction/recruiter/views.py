@@ -24,6 +24,7 @@ def dashboard(request):
         return render(request,"recruiter/recruiter_home.html", {'applicants': zip(all_applicants, applicant_objs)})
     else:
         if 'O' in request.POST:
+            print('in O search')
             o = request.POST['O']
             c = request.POST['C']
             e = request.POST['E']

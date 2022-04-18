@@ -46,20 +46,24 @@
 </head>
 
 <body>
-  <section style="position:relative;z-index:1;">
-    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2;">
+  <section style="position:relative;z-index:1; width: 100%;">
+    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2; background-color: #253757; width: 200%;">
       <div class="centered"
         style="position: absolute;top: 50%;left: 38%;transform: translate(-50%, -50%);font-size:36px;">
-        {{applicant.user.first_name}} {{applicant.user.last_name}}</div>
-      <img
+        {{applicant.user.first_name}} {{applicant.user.last_name}}
+      </div>
+      <!-- <img
         src="https://images.pexels.com/photos/1526/dark-blur-blurred-gradient.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"
-        style="height:130px;width:180%;margin-left:-60%;">
+        style="height:130px;width:180%;margin-left:-60%;"> -->
+        <img
+        src="https://ideas.ted.com/wp-content/uploads/sites/3/2017/08/featured_art_dynamic-pursuits-final.jpg?w=750"
+        style="height:130px;margin-left:100%;">
     </div>
   </section>
   <nav class="navbar navbar-custom">
     <ul class="navbar-nav ml-auto">
       <a class="navbar-brand" href="{% url 'home' %}" style="color:white;">
-        Dashboard
+        Home
       </a>
     </ul>
     <!-- <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">

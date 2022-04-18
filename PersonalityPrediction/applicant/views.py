@@ -146,6 +146,7 @@ def avi_upload(request):
 def dashboard(request):
 	user = request.user
 	applicant = Applicant.objects.filter(user=user).first()
+	personality = PersonalityTraits.objects.get(user=user)
 	print(applicant.phone_number)
 	fields = {
 		'First Name' : applicant.user.first_name,
@@ -163,6 +164,7 @@ def dashboard(request):
 		fields['Key Skills'] = ', '.join(applicant.key_skills['skills'])
 	else:
 		fields['Key Skills'] = ''
+
 	# print(fields)
 	# print(audio_model.ocean_predict())
 	# return render(request,"applicant/dashboard.html", {'fields':fields, 'profile': applicant.profile_pic.url,  'graph':return_graph(request.user).decode('utf-8'), 'traits': dumps(trait_values(request.user))})

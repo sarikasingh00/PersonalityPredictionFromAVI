@@ -47,13 +47,16 @@
 
 <body>
   <section style="position:relative;z-index:1;">
-    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2;">
+    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2; background-color: #253757; width: 200%;">
       <div class="centered"
         style="position: absolute;top: 50%;left: 38%;transform: translate(-50%, -50%);font-size:36px;">
         {{user.first_name}} {{user.last_name}}</div>
-      <img
+      <!-- <img
         src="https://images.pexels.com/photos/1526/dark-blur-blurred-gradient.jpg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200"
-        style="height:130px;width:180%;margin-left:-60%;">
+        style="height:130px;width:180%;margin-left:-60%;"> -->
+        <img
+        src="https://ideas.ted.com/wp-content/uploads/sites/3/2017/08/featured_art_dynamic-pursuits-final.jpg?w=750"
+        style="height:130px;margin-left:100%;">
     </div>
   </section>
   <nav class="navbar navbar-custom">
@@ -81,12 +84,12 @@
         <hr>
         {% for key,value in fields.items %}
         {% if key == 'Uploaded Resume' %}<br>
-          {% if 'skills' in applicant.key_skills %}
-            <a>{{applicant.key_skills.skills|join:" , " }}</a><br>
-          {% else %}
-            Resume Note Uploaded Yet
+            {% if value %}
+                {{key}} - <a href="{{value.url}}"> {{applicant.resume_filename}}</a> <br>
+            {% else %}
+                Resume not uploaded yet <br>
+        {% endif %}
           {%endif%}
-        {%endif%}
         {% comment %} {{key}} - <a href={{value.url}}> {{applicant.resume_filename}}</a> <br>
         {% endif %} {% endcomment %}
         {% endfor %}

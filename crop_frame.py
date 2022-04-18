@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np    # for mathematical operations
 import glob
 import os
-# import dlib
+import dlib
 import time
 
 
@@ -59,8 +59,8 @@ start_time = time.time()
 
 save_path = 'D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\cropped_frames'
 predictor_path = "D:\\Sarika\\PersonalityPredictionFromAVI\\shape_predictor_68_face_landmarks.dat"
-# detector = dlib.get_frontal_face_detector()
-# predictor = dlib.shape_predictor(predictor_path)
+detector = dlib.get_frontal_face_detector()
+predictor = dlib.shape_predictor(predictor_path)
 
 
 frame_names = glob.glob('D:\\Sarika\\PersonalityPredictionFromAVI\\data\\test\\frames\\*')

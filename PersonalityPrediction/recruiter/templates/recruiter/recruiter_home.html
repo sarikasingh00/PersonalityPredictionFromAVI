@@ -62,15 +62,25 @@ ol li{
 </style>
 </head>
 <body style="background:#ECECEC">
+  <section style="position:relative;z-index:1;">
+    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2; background-color: #253757;">
+      <div class="centered"
+        style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);font-size:36px;">
+        Personality.AI</div>
+      <img
+        src="https://ideas.ted.com/wp-content/uploads/sites/3/2017/08/featured_art_dynamic-pursuits-final.jpg?w=750"
+        style="height:130px;margin-left:-120%;">
+    </div>
+  </section>
   <nav class="navbar navbar-custom">
 		<ul class="navbar-nav ml-auto">
 		  <a class="navbar-brand" href="{% url 'home' %}" style="color:white;">
-			Dashboard
+			Home
 		  </a>
 		</ul>
-		<a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
+		<!-- <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
 		  Update Profile
-		</a>
+		</a> -->
 		<a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
 		  onclick="return confirm('Are you sure you want to logout?');">
 		  Logout
@@ -105,14 +115,14 @@ ol li{
                 </div>
               </div>
           </div>
-
+        </form>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="Search">Search by Name</label> <input type="text" id="Search" name="Search" style="width:500px"><br>
             <button type="submit"  class="btn btn-info shadow-lg" style="margin-top:-10%;margin-left:85%;background-color:#57A0D3;width:140px;border-radius:8px">Search</button>
         </form>
         <br><br><br><br><br>
-        {% for applicant in applicants %}
+        {% for ocean, applicant in applicants %}
         <div class="card mb-3" style="max-width: 940px;left: 2%;height: 250px;width: 800px;">
           <div class="row no-gutters">
             <div class="col-md-4">
