@@ -81,8 +81,14 @@
         <hr>
         {% for key,value in fields.items %}
         {% if key == 'Uploaded Resume' %}<br>
-        {{key}} - <a href={{value.url}}> {{applicant.resume_filename}}</a> <br>
-        {% endif %}
+          {% if 'skills' in applicant.key_skills %}
+            <a>{{applicant.key_skills.skills|join:" , " }}</a><br>
+          {% else %}
+            Resume Note Uploaded Yet
+          {%endif%}
+        {%endif%}
+        {% comment %} {{key}} - <a href={{value.url}}> {{applicant.resume_filename}}</a> <br>
+        {% endif %} {% endcomment %}
         {% endfor %}
         <br>
         <div>
@@ -96,7 +102,7 @@
         <hr>
         {% for key,value in fields.items %}
         {% if key == 'Video Interview' %}<br>
-        {{key}} - <a href={{value.url}}> {{applicant.avi_filename}}</a> <br>
+        {{key}} - <a href={{value}}> {{applicant.avi_filename}}</a> <br>
         {% endif %}
         {% endfor %}
         <br>

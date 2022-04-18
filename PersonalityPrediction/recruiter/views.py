@@ -12,7 +12,9 @@ from json import dumps
 def dashboard(request):
     print("Recruiter Dahsboard")
     results = None
+
     if request.method == 'GET':
+        # all_applicants = Applicant.objects.all()
         all_applicants = PersonalityTraits.objects.all()
         applicant_objs = []
         for applicant in all_applicants:
@@ -73,7 +75,5 @@ def applicant_profile(request, username):
         fields['Key Skills'] = ', '.join(applicant.key_skills['skills'])
     else:
         fields['Key Skills'] = ''
-    
-
     
     return render(request,"recruiter/applicant_profile.html", {'applicant': applicant, 'traits': dumps(trait_values(user_obj)), 'fields': fields})
