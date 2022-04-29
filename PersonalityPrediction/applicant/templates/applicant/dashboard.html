@@ -46,8 +46,8 @@
 </head>
 
 <body>
-  <section style="position:relative;z-index:1;">
-    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2; background-color: #253757; width: 200%;">
+  <section style="position:relative;z-index:1; background-color: #253757;">
+    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2; ">
       <div class="centered"
         style="position: absolute;top: 50%;left: 38%;transform: translate(-50%, -50%);font-size:36px;">
         {{user.first_name}} {{user.last_name}}</div>
@@ -90,8 +90,6 @@
                 Resume not uploaded yet <br>
         {% endif %}
           {%endif%}
-        {% comment %} {{key}} - <a href={{value.url}}> {{applicant.resume_filename}}</a> <br>
-        {% endif %} {% endcomment %}
         {% endfor %}
         <br>
         <div>
@@ -105,8 +103,13 @@
         <hr>
         {% for key,value in fields.items %}
         {% if key == 'Video Interview' %}<br>
-        {{key}} - <a href={{value}}> {{applicant.avi_filename}}</a> <br>
+        <!-- {{value}} -->
+        {% if value %}
+          {{key}} - <a href={{value.url}}> {{applicant.avi_filename}}</a> <br>
+        {% else %}
+          Video Interview not uploaded yet <br>
         {% endif %}
+        {%endif%}
         {% endfor %}
         <br>
         <div>
@@ -188,7 +191,8 @@
     <p style="text-align: center; font-size: 2.5rem; margin-top: 2%;"> Your Big 5 Personality Traits</p>
     <hr>
   </section>
-  {% if traits %}
+  
+  {% if traits != 'null'%}
   <div class="row">
     <div class="column graph">
       <img src="https://discuss.oliveboard.in/uploadedimages/956020-1613381156" style="width: 100%;">
@@ -206,7 +210,7 @@
     </div>
     <div class="column graph">
       <div id='myDiv'>
-        <p>Please Upload Your Video Interview</p>
+        <p style="text-align: center;">Please Upload Your Video Interview</p>
       </div>
     </div>
   </div>

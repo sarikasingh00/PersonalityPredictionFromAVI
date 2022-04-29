@@ -13,139 +13,174 @@
   <script src='https://cdn.plot.ly/plotly-2.9.0.min.js'></script>
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
   <style>
-  .navbar-custom {
-	background-color: #4591ba;
-	background-image: linear-gradient(315deg, #678ca1 0%, #4591ba 74%);
-  }
-  .dropbtn {
-    padding: 16px;
-    margin-top:5%;
-    font-size: 16px;
-    border: none;
-  }
-  
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  }
-  
-  .dropdown-content a {
-    margin-top:5px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown:hover .dropdown-content {display: block;}
-  
-  ol.no_1{
-             
-    column-count: 6;
-      
-    list-style: none;
-    height: 100px;
-    top:35%;
-    left:5%;
-    position: absolute;
-    background-color:#C4C4C4;
-}
-ol li{
-  display: inline-block;
-}
-</style>
+    .navbar-custom {
+      background-color: #4591ba;
+      background-image: linear-gradient(315deg, #678ca1 0%, #4591ba 74%);
+    }
+
+    .dropbtn {
+      padding: 16px;
+      margin-top: 5%;
+      font-size: 16px;
+      border: none;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: auto;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content a {
+      margin-top: 5px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    ol.no_1 {
+
+      column-count: 6;
+
+      list-style: none;
+      height: 100px;
+      top: 35%;
+      left: 5%;
+      position: absolute;
+      background-color: #C4C4C4;
+    }
+
+    ol li {
+      display: inline-block;
+    }
+
+    .circle {
+      width: 80px;
+      height: 80px;
+      line-height: 50px;
+      border-radius: 50%;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+      float: left;
+      margin: 25px;
+    }
+  </style>
 </head>
+
 <body style="background:#ECECEC">
-  <section style="position:relative;z-index:1;">
-    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2; background-color: #253757;">
+  <section style="position:relative;z-index:1;  background-color: #253757;">
+    <div class="container" style="position: relative;text-align: center;color: white;z-index:-2;">
       <div class="centered"
         style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);font-size:36px;">
         Personality.AI</div>
-      <img
-        src="https://ideas.ted.com/wp-content/uploads/sites/3/2017/08/featured_art_dynamic-pursuits-final.jpg?w=750"
+      <img src="https://ideas.ted.com/wp-content/uploads/sites/3/2017/08/featured_art_dynamic-pursuits-final.jpg?w=750"
         style="height:130px;margin-left:-120%;">
     </div>
   </section>
   <nav class="navbar navbar-custom">
-		<ul class="navbar-nav ml-auto">
-		  <a class="navbar-brand" href="{% url 'home' %}" style="color:white;">
-			Home
-		  </a>
-		</ul>
-		<!-- <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
+    <ul class="navbar-nav ml-auto">
+      <a class="navbar-brand" href="{% url 'home' %}" style="color:white;">
+        Home
+      </a>
+    </ul>
+    <!-- <a class="navbar-brand" href="{% url 'edit-profile' %}" style="color:white;">
 		  Update Profile
 		</a> -->
-		<a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
-		  onclick="return confirm('Are you sure you want to logout?');">
-		  Logout
-		</a>
-	  </nav>
+    <a class="navbar-brand" href="{% url 'logout' %}" style="color:white;"
+      onclick="return confirm('Are you sure you want to logout?');">
+      Logout
+    </a>
+  </nav>
 
-    
-    <div class="filterbox" style="width:1200px;height:80px;margin-left:3%;background-color:white;margin-top:2%;">
-      <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-            <div class="dropdown">
-              <p class="dropbtn" style="margin-left:5%;width:300px">Filter by OCEAN traits
-                  <i class="fa fa-caret-down"></i>
-              </p>
-              <div class="dropdown-content">
-                <div class="row">
-                  <ol class="no_1">
-                    <li><a href="#"><label for="O">O</label> <input type="text" id="O" name="O" style="width:180px"></a></li><br>
-                    <li></li>
-                    <li><a href="#"><label for="C">C</label> <input type="text" id="C" name="C" style="width:180px"></a></li><br>
-                    <li></li>
-                    <li><a href="#"><label for="E">E</label> <input type="text" id="E" name="E" style="width:180px"></a></li><br>
-                    <li></li>
-                    <li><a href="#"><label for="A">A</label> <input type="text" id="A" name="A" style="width:180px"></a></li><br>
-                    <li></li>
-                    <li><a href="#"><label for="N">N</label> <input type="text" id="N" name="N" style="width:180px"></a></li><br>
-                    <li></li>
-                    <li>
-                      <button type="submit" class="btn btn-info shadow-lg" style="margin-top:-44%;margin-left:140%;background-color:#57A0D3;width:140px;border-radius:8px">Filter</button>
-                    </li>
-                  </ol> 
-                </div>
-              </div>
-          </div>
-        </form>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="Search">Search by Name</label> <input type="text" id="Search" name="Search" style="width:500px"><br>
-            <button type="submit"  class="btn btn-info shadow-lg" style="margin-top:-10%;margin-left:85%;background-color:#57A0D3;width:140px;border-radius:8px">Search</button>
-        </form>
-        <br><br><br><br><br>
-        {% for ocean, applicant in applicants %}
-        <div class="card mb-3" style="max-width: 940px;left: 2%;height: 250px;width: 800px;">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src="{{ MEDIA_URL }}{{applicant.profile_pic.url}}" style="width: 250px; height: 250px;">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title"><a href="{% url 'applicant-profile' applicant.user.username %}">{{applicant.user.first_name}} {{applicant.user.last_name}} </a></h5>
-                {% comment %} {{ocean.o|floatformat:2}} ,{{ocean.c|floatformat:2}} , {{ocean.e|floatformat:2}} , {{ocean.a|floatformat:2}} , {{ocean.n|floatformat:2}}<br> {% endcomment %}
-                {% if 'skills' in applicant.key_skills %}
-                  <p class="card-text">{{applicant.key_skills.skills|join:" , " }}</p>
-                {% else %}
-                  <p class="card-text">Resume Note Uploaded Yet</p>
-                {%endif%}
-              </div>
-            </div>
+
+  <div class="filterbox" style="width:1425px;height:80px;margin-left:3%;background-color:white;margin-top:2%;">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="dropdown">
+        <p class="dropbtn" style="margin-left:5%;width:300px">Filter by OCEAN traits
+          <i class="fa fa-caret-down"></i>
+        </p>
+        <div class="dropdown-content">
+          <div class="row">
+            <ol class="no_1">
+              <li><a href="#"><label for="O">O</label> <input type="text" id="O" name="O" style="width:180px"></a></li>
+              <br>
+              <li></li>
+              <li><a href="#"><label for="C">C</label> <input type="text" id="C" name="C" style="width:180px"></a></li>
+              <br>
+              <li></li>
+              <li><a href="#"><label for="E">E</label> <input type="text" id="E" name="E" style="width:180px"></a></li>
+              <br>
+              <li></li>
+              <li><a href="#"><label for="A">A</label> <input type="text" id="A" name="A" style="width:180px"></a></li>
+              <br>
+              <li></li>
+              <li><a href="#"><label for="N">N</label> <input type="text" id="N" name="N" style="width:180px"></a></li>
+              <br>
+              <li></li>
+              <li>
+                <button type="submit" class="btn btn-info shadow-lg"
+                  style="margin-top:-44%;margin-left:140%;background-color:#57A0D3;width:140px;border-radius:8px">Filter</button>
+              </li>
+            </ol>
           </div>
         </div>
-        <br>
+      </div>
+    </form>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div style="margin-top:-4.1%">
+        <label for="Search" style="margin-left:23%;">Search by Name</label> <input type="text" id="Search" name="Search"
+          style="width:500px;margin-left:3%"><br>
+      </div>
+      <button type="submit" class="btn btn-info shadow-lg"
+        style="margin-top:-5%;margin-left:85%;background-color:#57A0D3;width:140px;border-radius:8px">Search</button>
+    </form>
+    <br><br><br><br><br>
+    {% for ocean, applicant in applicants %}
+    <div class="card mb-3" style="max-width: 2000px; height: 250px;width: 900px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="{{ MEDIA_URL }}{{applicant.profile_pic.url}}" style="width: 250px; height: 250px;">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"><a
+                href="{% url 'applicant-profile' applicant.user.username %}">{{applicant.user.first_name}}
+                {{applicant.user.last_name}} </a></h5>
+
+            {% if 'skills' in applicant.key_skills %}
+            <p class="card-text">{{applicant.key_skills.skills|join:" , " }}</p>
+            {% else %}
+            <p class="card-text">Resume Note Uploaded Yet</p>
+            {%endif%}
+            <!-- {{ocean.o|floatformat:2}} ,{{ocean.c|floatformat:2}} , {{ocean.e|floatformat:2}} , {{ocean.a|floatformat:2}} , {{ocean.n|floatformat:2}}<br> -->
+          </div>
+        </div>
+
+      </div>
+      </div>
+      <div class="ocean" style="width: 500px; height: 250px; background-color: white; margin-left: 65%; margin-top: -18.5%; padding-left: 3.5%;">
+        <div class="circle" style="background-color:#4591ba;"><p style="margin-bottom:-20px"><u>O</u></p> {{ocean.o|floatformat:2}}</div>
+        <div class="circle" style="background-color:#FD636B"><p style="margin-bottom:-20px"><u>C</u></p> {{ocean.c|floatformat:2}}</div>
+        <div class="circle" style="background-color:#FFB900"><p style="margin-bottom:-20px"><u>E</u></p> {{ocean.e|floatformat:2}}</div>
+        <div class="circle" style="background-color:#3BE8B0; margin-left: 90px;"><p style="margin-bottom:-20px"><u>A</u></p> {{ocean.a|floatformat:2}}</div>
+        <div class="circle" style="background-color:#6967CE;"><p style="margin-bottom:-20px"><u>N</u></p>{{ocean.n|floatformat:2}}</div>
+      </div>
+      <br>
 
     {% endfor %}
-<div>
-</div>
 </body>
 
 </html>

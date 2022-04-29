@@ -171,10 +171,10 @@ def ocean_predict(image_feature_path):
 		x = image.img_to_array(img)
 		x = np.expand_dims(x, axis=0)
 		x/=255
-		print(x.shape)
+		# print(x.shape)
 		pred = model.predict(x)[0]
 		# predictions += [pred]
 		predictions = np.vstack((predictions, pred))
-	print(predictions.shape)
+	# print(predictions.shape)
 	return np.mean(predictions, axis=0)
 	# return model.predict(data1)

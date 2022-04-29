@@ -88,10 +88,10 @@ def trait_values(user):
 	
 
 def avi_upload(request):
-	print("in avi upload view")
+	print("Uploading AVI")
 	applicant_obj = Applicant.objects.get(user = request.user)
 	if request.method == 'POST':
-		print("in POST")
+		# print("in POST")
 		avi_file = request.FILES['avi']
 		if not avi_file.name.endswith('.mp4'):
 			messages.error(request, 'You must upload an MP4 file')
@@ -102,8 +102,8 @@ def avi_upload(request):
 			print(applicant_obj.avi.name)
 			applicant_obj.save()
 			audio_feature_path, video_feature_path = avi_features.feature_pipeline(applicant_obj.avi.name)
-			print(audio_feature_path, video_feature_path)
-			print("audio ft extracted, moving to preds")
+			# print(audio_feature_path, video_feature_path)
+			# print("audio ft extracted, moving to preds")
 			audio_pred = audio_model.ocean_predict(audio_feature_path)[0][0]
 			img_pred = image_model.ocean_predict(video_feature_path)
 			print(audio_pred)
@@ -146,8 +146,10 @@ def avi_upload(request):
 def dashboard(request):
 	user = request.user
 	applicant = Applicant.objects.filter(user=user).first()
-	personality = PersonalityTraits.objects.get(user=user)
-	print(applicant.phone_number)
+	personality = None
+	if PersonalityTraits.objects.filter(user=user).exists():
+		personality = PersonalityTraits.objects.get(user=user)
+	# print(applicant.phone_number)
 	fields = {
 		'First Name' : applicant.user.first_name,
 		'Last Name' : applicant.user.last_name,

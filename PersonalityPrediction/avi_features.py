@@ -28,28 +28,28 @@ def feature_pipeline(path):
 	return audio_path, video_path
 
 def audio_extract(path):
-	print('audio extract')
+	print('Extracting audio in .wav format')
 	
 	folder, username, subfolder, name = path.split('/')
 	
 	path = os.path.join(os.getcwd(), 'media' ,path).replace('/', '\\')
-	print(path)  
+	# print(path)  
 	
 	output_folder = 'media/' + folder + '/' + username + '/audio/'
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
-	print(output_folder)
+	# print(output_folder)
 
 
 	if os.path.isdir(output_folder):
-		print("Delete first")
+		# print("Delete first")
 		shutil.rmtree(output_folder)
 	# if not os.path.isdir(output_folder):
-	print('making directory' + output_folder)
+	print('making directory ' + output_folder)
 	os.mkdir(output_folder)
 
 	
 	output_path = output_folder + name + '.wav'
-	print(output_path)
+	# print(output_path)
 
 	command = "ffmpeg -i \"{}\" -ab 160k -ac 2 -ar 44100 -vn {}".format(path, output_path)
 	# print(command)
@@ -58,24 +58,24 @@ def audio_extract(path):
 
 
 def audio_feature(path):
-	print('audio feature')
+	print('Extracting features from audio')
 	folder, username, audio, name = path.split('/')
 
 	audio_path = os.path.join(os.getcwd(), 'media' , folder, username, 'audio', name + '.wav').replace('/', '\\')
-	print(audio_path)  
+	# print(audio_path)  
 
 	# audio_path = './media/' + folder + '/' + username + '/audio/' + name + '.wav'
 	# output_path = './media/' + folder + '/' + username + '/audio_features/' + name
 
 	output_folder = 'media/' + folder + '/' + username + '/audio_features/'
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
-	print(output_folder)
+	# print(output_folder)
 
 	if os.path.isdir(output_folder):
-		print("Delete first")
+		# print("Delete first")
 		shutil.rmtree(output_folder)	
 	
-	print('making directory' + output_folder)
+	print('making directory ' + output_folder)
 	os.mkdir(output_folder)
 
 	output_path = output_folder + name
@@ -87,21 +87,22 @@ def audio_feature(path):
 
 def frame_extract(path):
 	# path of form - uploads/username/avi/videoname
+	print("Extracting video frames")
 	folder, username, subfolder, name = path.split('/')
 	
 	path = os.path.join(os.getcwd(), 'media' ,path).replace('/', '\\')
-	print(path)  
+	# print(path)  
 
 	output_folder = 'media/' + folder + '/' + username + '/frames/'
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
-	print("frame output folder - ", output_folder)
+	# print("frame output folder - ", output_folder)
 
 	if os.path.isdir(output_folder):
-		print("Delete first")
+		# print("Delete first")
 		shutil.rmtree(output_folder)
 
 	# if not os.path.isdir(output_folder):
-	print('making directory' + output_folder)
+	print('making directory ' + output_folder)
 	os.mkdir(output_folder)
 	
 
@@ -126,27 +127,27 @@ def frame_extract(path):
 
 
 def loop_frame_crop(path):
-	print('in crop loop')
+	print('Cropping video frames to focus on detected face')
 	predictor_path = "D:\\Sarika\\PersonalityPredictionFromAVI\\shape_predictor_68_face_landmarks.dat"
 	detector = dlib.get_frontal_face_detector()
 	predictor = dlib.shape_predictor(predictor_path)
-	print('got predictor and detector')
+	# print('got predictor and detector')
 
 	folder, username, subfolder, name = path.split('/')
 	
 	path = 'media/' + folder + '/' + username + '/frames/'
 	path = os.path.join(os.getcwd(), path).replace('/', '\\')
-	print(path)
+	# print(path)
 
 	output_folder = 'media/' + folder + '/' + username + '/cropped_frames/'
 	output_folder = os.path.join(os.getcwd(), output_folder).replace('/', '\\')
-	print(output_folder)
+	# print(output_folder)
 
 	if os.path.isdir(output_folder):
-		print("Delete first")
+		# print("Delete first")
 		shutil.rmtree(output_folder)
 	
-	print('making directory' + output_folder)
+	print('making directory ' + output_folder)
 	os.mkdir(output_folder)
 
 	frame_names = glob.glob(path + '*')
@@ -161,10 +162,10 @@ def loop_frame_crop(path):
 
 	# print(file_names[-20:])
 
-	print(len(frame_names))
+	print("Total frames - ", len(frame_names))
 
 	for i in range(len(frame_names)):
-		print(i)
+		print("Cropping frame ", i)
 		crop_landmarks(frame_names[i], file_names[i], detector, predictor, output_folder)
 
 	return output_folder
